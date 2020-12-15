@@ -12,7 +12,7 @@ namespace TranslationTrainer
 			UserWordsToCompletion = userWordsToCompletion;
 		}
 
-		public int SprintExerciseWordsCount { get; }
+		public int ExerciseWordsCount { get; }
 
 		public int UserWordsToCompletion { get; }
 	}
