@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TranslationTrainer.Domain;
 
 namespace TranslationTrainer.Infrastructure
@@ -7,17 +8,23 @@ namespace TranslationTrainer.Infrastructure
 	{
 		public IUser Load(Guid userId)
 		{
-			throw new NotImplementedException();
+			return new User(
+				userId,
+				Credentials.FromLoginAndPassword("login", "password"),
+				Enumerable.Empty<StudiedWord>());
 		}
 
 		public IUser Load(string login)
 		{
-			throw new NotImplementedException();
+			return new User(
+				Guid.NewGuid(),
+				Credentials.FromLoginAndPassword("login", "password"),
+				Enumerable.Empty<StudiedWord>());
 		}
 
 		public void Save(IUser user)
 		{
-			throw new NotImplementedException();
+			
 		}
 	}
 }

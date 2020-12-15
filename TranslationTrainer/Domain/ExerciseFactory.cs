@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TranslationTrainer.Domain.Exercises;
 
 namespace TranslationTrainer.Domain
 {
@@ -36,7 +37,7 @@ namespace TranslationTrainer.Domain
 				.Take(_settings.ExerciseWordsCount)
 				.Select(word => GetExercisedWord(word, allWords, random));
 
-			return new Exercise(Guid.NewGuid(), userId, wordsForExercise);
+			return new SprintExercise(Guid.NewGuid(), userId, wordsForExercise);
 		}
 
 		private bool IsUncomplete(StudiedWord studiedWord)

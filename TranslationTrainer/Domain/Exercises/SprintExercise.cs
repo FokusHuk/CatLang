@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TranslationTrainer.Domain
+namespace TranslationTrainer.Domain.Exercises
 {
-	public class Exercise : IExercise
+	public class SprintExercise : IExercise
 	{
-		public Exercise(Guid exerciseId, Guid userId, IEnumerable<ExercisedWord> exercisedWords)
+		public SprintExercise(Guid exerciseId, Guid userId, IEnumerable<ExercisedWord> exercisedWords)
 		{
 			ExerciseId = exerciseId;
 			UserId = userId;
 			_wordsDone = 0;
 			_wordsLeft = exercisedWords.Count();
-			_wordsEnumerator = exercisedWords?.GetEnumerator() 
-				?? throw new ArgumentNullException(nameof(exercisedWords));
+			_wordsEnumerator = exercisedWords.GetEnumerator();
 			_isFinished = !_wordsEnumerator.MoveNext();
 			_currentExercisedWord = _wordsEnumerator.Current;
 		}

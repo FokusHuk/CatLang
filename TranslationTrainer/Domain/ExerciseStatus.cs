@@ -14,8 +14,8 @@ namespace TranslationTrainer.Domain
 			IEnumerable<ExercisedWord> wordsConsideredCorrect,
 			IEnumerable<ExercisedWord> wordsConsideredIncorrect)
 		{
-			WordsDone = wordsDone;
-			WordsLeft = wordsLeft;
+			TasksDone = wordsDone;
+			TasksLeft = wordsLeft;
 			IsFinished = isFinished;
 			CurrentWord = currentWord;
 			WordsConsideredCorrect = wordsConsideredCorrect;
@@ -24,8 +24,8 @@ namespace TranslationTrainer.Domain
 		}
 
 		public Guid ExerciseId { get; }
-		public int WordsDone { get; }
-		public int WordsLeft { get; }
+		public int TasksDone { get; }
+		public int TasksLeft { get; }
 		public bool IsFinished { get; }
 		public ExercisedWord CurrentWord { get; }
 		public IEnumerable<ExercisedWord> WordsConsideredCorrect { get; }
