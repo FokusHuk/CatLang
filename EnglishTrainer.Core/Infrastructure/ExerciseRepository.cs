@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TranslationTrainer.Domain;
-using TranslationTrainer.Domain.Exercises;
-using TranslationTrainer.Domain.Repositories;
+using EnglishTrainer.Core.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Repositories;
 
-namespace TranslationTrainer.Infrastructure
+namespace EnglishTrainer.Core.Infrastructure
 {
 	public class ExerciseRepository : IExerciseRepository
 	{

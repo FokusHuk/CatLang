@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TranslationTrainer.Domain.Entities
+namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class Word
 	{

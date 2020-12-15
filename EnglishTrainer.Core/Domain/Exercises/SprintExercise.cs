@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TranslationTrainer.Domain.Exercises
+namespace EnglishTrainer.Core.Domain.Exercises
 {
 	public class SprintExercise
 	{

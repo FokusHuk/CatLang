@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using TranslationTrainer.Domain.Entities;
-using TranslationTrainer.Domain.Exercises;
-using TranslationTrainer.Domain.Repositories;
+using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Repositories;
 
-namespace TranslationTrainer.Domain
+namespace EnglishTrainer.Core.Domain
 {
 	public class ExerciseFactory : IExerciseFactory
 	{

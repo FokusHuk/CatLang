@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TranslationTrainer.Domain.Entities
+namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class Credentials
 	{

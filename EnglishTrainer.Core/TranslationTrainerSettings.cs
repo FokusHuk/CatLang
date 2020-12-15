@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TranslationTrainer
+namespace EnglishTrainer.Core
 {
 	public class TranslationTrainerSettings
 	{

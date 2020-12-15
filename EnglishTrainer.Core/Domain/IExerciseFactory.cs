@@ -1,7 +1,7 @@
 ﻿using System;
-using TranslationTrainer.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises;
 
-namespace TranslationTrainer.Domain
+namespace EnglishTrainer.Core.Domain
 {
 	public interface IExerciseFactory
 	{

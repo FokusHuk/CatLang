@@ -1,4 +1,4 @@
-﻿namespace TranslationTrainer.Domain.Exercises
+﻿namespace EnglishTrainer.Core.Domain.Exercises
 {
     public class SprintExerciseTask
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TranslationTrainer.Domain.Entities;
+using EnglishTrainer.Core.Domain.Entities;
 
-namespace TranslationTrainer.Application
+namespace EnglishTrainer.Core.Application
 {
 	public interface IUserService
 	{

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TranslationTrainer.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises;
 
-namespace TranslationTrainer.Application
+namespace EnglishTrainer.Core.Application
 {
 	public interface IExerciseService
 	{

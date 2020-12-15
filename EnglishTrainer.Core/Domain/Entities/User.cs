@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TranslationTrainer.Domain.Entities
+namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class User : IUser
 	{

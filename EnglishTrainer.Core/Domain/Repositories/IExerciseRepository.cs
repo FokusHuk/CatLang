@@ -1,7 +1,7 @@
 ﻿using System;
-using TranslationTrainer.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises;
 
-namespace TranslationTrainer.Domain.Repositories
+namespace EnglishTrainer.Core.Domain.Repositories
 {
 	public interface IExerciseRepository
 	{

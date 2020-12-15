@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TranslationTrainer.Domain.Exceptions
+namespace EnglishTrainer.Core.Domain.Exceptions
 {
 	public class ExerciseNotFoundException : Exception
 	{

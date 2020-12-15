@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TranslationTrainer.Domain.Entities;
-using TranslationTrainer.Domain.Repositories;
+using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Repositories;
 
-namespace TranslationTrainer.Application
+namespace EnglishTrainer.Core.Application
 {
 	public class UserService : IUserService
 	{
