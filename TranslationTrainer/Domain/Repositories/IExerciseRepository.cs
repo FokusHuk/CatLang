@@ -7,5 +7,6 @@ namespace TranslationTrainer.Domain
 	{
 		void SaveExercise(SprintExercise exercise);
 		SprintExercise GetSprintExercise(Guid exerciseId);
+		void DeleteSprintExercise(Guid exerciseId);
 	}
 }

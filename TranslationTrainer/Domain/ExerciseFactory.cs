@@ -22,23 +22,18 @@ namespace TranslationTrainer.Domain
 			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
 				.Take(_settings.ExerciseWordsCount)
-				.Select(word => GetSprintExerciseTask(exerciseId, word, allWords, random));
+				.Select(word => GetSprintExerciseTask(word, allWords, random));
 			
 			return new SprintExercise(exerciseId, userId, exerciseTasks);
 		}
 
-		private static SprintExerciseTask GetSprintExerciseTask(
-			Guid exerciseId,
-			Word word,
-			Word[] allWords,
-			Random random)
+		private static SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords, Random random)
 		{
 			var shouldReplaceTranslation = random.Next() % 2 == 0;
 			
 			if (!shouldReplaceTranslation)
 			{
 				return new SprintExerciseTask(
-					exerciseId,
 					word.Original,
 					word.Translation,
 					true);
@@ -46,7 +41,6 @@ namespace TranslationTrainer.Domain
 
 			var alternativeTranslation = allWords[random.Next(allWords.Length)].Translation;
 			return new SprintExerciseTask(
-				exerciseId,
 				word.Original,
 				alternativeTranslation,
 				true);

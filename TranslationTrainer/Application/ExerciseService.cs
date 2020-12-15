@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TranslationTrainer.Domain;
 using TranslationTrainer.Domain.Exercises;
 
@@ -7,12 +8,10 @@ namespace TranslationTrainer.Application
 	public class ExerciseService : IExerciseService
 	{
 		public ExerciseService(
-			IExerciseFactory factory, 
-			IExerciseFinisher finisher,
+			IExerciseFactory factory,
 			IExerciseRepository repository)
 		{
 			_factory = factory ?? throw new ArgumentNullException(nameof(factory));
-			_finisher = finisher ?? throw new ArgumentNullException(nameof(finisher));
 			_exerciseRepository = repository ?? throw new ArgumentNullException(nameof(repository));
 		}
 
@@ -36,56 +35,16 @@ namespace TranslationTrainer.Application
 			return exercise.Status;
 		}
 
-		//public ExerciseStatusOld StartExercise(Guid userId)
-
-		//{
-
-		//	var exercise = _factory.Create(userId);
-
-		//	_exerciseRepository.SaveExercise(exercise);
-
-		//	return exercise.Status;
-
-		//}
-
-		//
-
-		//public ExerciseResult FinishExercise(Guid exerciseId)
-
-//{
-
-		//	var exerciseResults = _finisher.FinishExercise(exerciseId);
-
-		//	return exerciseResults;
-
-		//}
-
-		//
-
-		//public ExerciseStatusOld CommitCurrentWord(Guid exerciseId, bool isCorrect)
-
-//{
-
-		//	var exercise = _exerciseRepository.GetExercise(exerciseId);
-
-		//	exercise.CommitCurrentTranslation(isCorrect);
-
-		//	_exerciseRepository.SaveExercise(exercise);
-
-		//	return exercise.Status;
-
-		//}
-
+		public IEnumerable<SprintExerciseResult> FinishSprintExercise(Guid exerciseId)
+		{
+			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
+			var result = exercise.Result;
+			_exerciseRepository.DeleteSprintExercise(exerciseId);
+			return result;
+		}
 
 		private readonly IExerciseFactory _factory;
 
-		private readonly IExerciseFinisher _finisher;
-
 		private readonly IExerciseRepository _exerciseRepository;
-
-		public ExerciseResult FinishExercise(Guid exerciseId)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

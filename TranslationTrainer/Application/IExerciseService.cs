@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TranslationTrainer.Domain;
 using TranslationTrainer.Domain.Exercises;
 
@@ -8,6 +9,6 @@ namespace TranslationTrainer.Application
 	{
 		SprintExerciseStatus StartSprintExercise(Guid userId);
 		SprintExerciseStatus CommitSprintExerciseAnswer(Guid userId, Guid exerciseId, string original, bool isCorrect);
-		ExerciseResult FinishExercise(Guid exerciseId);
+		IEnumerable<SprintExerciseResult> FinishSprintExercise(Guid exerciseId);
 	}
 }

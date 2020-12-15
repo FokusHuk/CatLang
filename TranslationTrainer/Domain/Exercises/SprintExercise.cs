@@ -30,5 +30,13 @@ namespace TranslationTrainer.Domain.Exercises
 		{
 			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
 		}
+		
+		public IEnumerable<SprintExerciseResult> Result => ExerciseTasks
+			.Select(task => new SprintExerciseResult(
+				task.Original,
+				task.Translation,
+				task.Correct,
+				task.Answer,
+				task.Correct == task.Answer));
 	}
 }
