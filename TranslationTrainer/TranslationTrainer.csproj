@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <RootNamespace>TranslationTrainer</RootNamespace>
   </PropertyGroup>
 
 </Project>
