@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TranslationTrainer.Domain.Exercises
+﻿namespace TranslationTrainer.Domain.Exercises
 {
     public class SprintExerciseResult
     {

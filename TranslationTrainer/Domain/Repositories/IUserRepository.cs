@@ -1,6 +1,7 @@
 ﻿using System;
+using TranslationTrainer.Domain.Entities;
 
-namespace TranslationTrainer.Domain
+namespace TranslationTrainer.Domain.Repositories
 {
 	public interface IUserRepository
 	{

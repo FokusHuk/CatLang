@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TranslationTrainer.Domain.Exercises
+﻿namespace TranslationTrainer.Domain.Exercises
 {
     public class SprintExerciseTask
     {

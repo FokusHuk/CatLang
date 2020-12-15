@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using TranslationTrainer.Domain;
+using TranslationTrainer.Domain.Entities;
+using TranslationTrainer.Domain.Repositories;
 
 namespace TranslationTrainer.Infrastructure
 {

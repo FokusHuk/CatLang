@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using TranslationTrainer.Domain.Entities;
 using TranslationTrainer.Domain.Exercises;
+using TranslationTrainer.Domain.Repositories;
 
 namespace TranslationTrainer.Domain
 {
