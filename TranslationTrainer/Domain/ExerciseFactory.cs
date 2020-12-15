@@ -9,7 +9,6 @@ namespace TranslationTrainer.Domain
 		public ExerciseFactory(
 			IUserRepository userRepository,
 			IWordsRepository wordsRepository,
-			IExerciseTasksRepository tasksRepository,
 			TranslationTrainerSettings settings)
 		{
 			_wordsRepository = wordsRepository ?? throw new ArgumentNullException(nameof(wordsRepository));

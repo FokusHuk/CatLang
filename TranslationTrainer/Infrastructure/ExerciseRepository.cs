@@ -12,6 +12,11 @@ namespace TranslationTrainer.Infrastructure
 			_sprintExerciseDictionary[exercise.ExerciseId] = exercise;
 		}
 
+		public SprintExercise GetSprintExercise(Guid exerciseId)
+		{
+			return _sprintExerciseDictionary[exerciseId];
+		}
+
 		private readonly Dictionary<Guid, SprintExercise> _sprintExerciseDictionary =
 			new Dictionary<Guid, SprintExercise>();
 	}

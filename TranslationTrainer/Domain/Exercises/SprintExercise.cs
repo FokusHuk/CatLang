@@ -21,9 +21,14 @@ namespace TranslationTrainer.Domain.Exercises
 
 		public SprintExerciseStatus Status => new SprintExerciseStatus(
 			ExerciseId,
-			ExerciseTasks.Count(task => task.Answer == null),
-			ExerciseTasks.Count(task => task.Answer != null),
-			ExerciseTasks.Any(task => task.Answer != null),
-			ExerciseTasks.FirstOrDefault(task => task.Answer == null));
+			ExerciseTasks.Count(task => task.IsCompleted),
+			ExerciseTasks.Count(task => !task.IsCompleted),
+			ExerciseTasks.Any(task => task.IsCompleted),
+			ExerciseTasks.FirstOrDefault(task => !task.IsCompleted));
+
+		public void CommitAnswer(string original, bool answer)
+		{
+			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
+		}
 	}
 }

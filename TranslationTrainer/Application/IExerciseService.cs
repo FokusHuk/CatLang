@@ -1,14 +1,13 @@
 ﻿using System;
 using TranslationTrainer.Domain;
+using TranslationTrainer.Domain.Exercises;
 
 namespace TranslationTrainer.Application
 {
 	public interface IExerciseService
 	{
-		ExerciseResult StartExercise(Guid userId);
-
+		SprintExerciseStatus StartSprintExercise(Guid userId);
+		SprintExerciseStatus CommitSprintExerciseAnswer(Guid userId, Guid exerciseId, string original, bool isCorrect);
 		ExerciseResult FinishExercise(Guid exerciseId);
-
-		ExerciseResult CommitCurrentWord(Guid exerciseId, bool isCorrect);
 	}
 }
