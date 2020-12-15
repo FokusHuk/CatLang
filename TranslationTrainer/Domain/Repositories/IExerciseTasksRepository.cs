@@ -7,5 +7,6 @@ namespace TranslationTrainer.Domain
     public interface IExerciseTasksRepository
     {
         IEnumerable<SprintExerciseTask> GetSprintExerciseTasks(Guid exerciseId);
+        void SaveSprintExerciseTasks(IEnumerable<SprintExerciseTask> exerciseTasks);
     }
 }

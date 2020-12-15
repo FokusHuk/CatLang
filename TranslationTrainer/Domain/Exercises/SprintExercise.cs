@@ -4,60 +4,26 @@ using System.Linq;
 
 namespace TranslationTrainer.Domain.Exercises
 {
-	public class SprintExercise : IExercise
+	public class SprintExercise
 	{
-		public SprintExercise(Guid exerciseId, Guid userId, IEnumerable<ExercisedWord> exercisedWords)
+		public SprintExercise(Guid exerciseId, Guid userId, IEnumerable<SprintExerciseTask> exerciseTasks)
 		{
 			ExerciseId = exerciseId;
 			UserId = userId;
-			_wordsDone = 0;
-			_wordsLeft = exercisedWords.Count();
-			_wordsEnumerator = exercisedWords.GetEnumerator();
-			_isFinished = !_wordsEnumerator.MoveNext();
-			_currentExercisedWord = _wordsEnumerator.Current;
+			ExerciseTasks = exerciseTasks;
 		}
 		
 		public Guid ExerciseId { get; }
 		
 		public Guid UserId { get; }
+		
+		public IEnumerable<SprintExerciseTask> ExerciseTasks { get; }
 
-		public void CommitCurrentTranslation(bool isCorrect)
-		{
-			if (_isFinished)
-			{
-				throw new InvalidOperationException("Can not commit translations to finished exercise");
-			}
-
-			if (isCorrect)
-			{
-				_wordsConsideredCorrect.Add(_currentExercisedWord);
-			}
-			else
-			{
-				_wordsConsideredIncorrect.Add(_currentExercisedWord);
-			}
-
-			_isFinished = !_wordsEnumerator.MoveNext();
-			_currentExercisedWord = _isFinished ? null : _wordsEnumerator.Current;
-			_wordsDone++;
-			_wordsLeft--;
-		}
-
-		public ExerciseStatus Status => new ExerciseStatus(
+		public SprintExerciseStatus Status => new SprintExerciseStatus(
 			ExerciseId,
-			_wordsDone,
-			_wordsLeft,
-			_isFinished,
-			_currentExercisedWord,
-			_wordsConsideredCorrect,
-			_wordsConsideredIncorrect);
-
-		private int _wordsDone;
-		private int _wordsLeft;
-		private readonly List<ExercisedWord> _wordsConsideredCorrect = new List<ExercisedWord>();
-		private readonly List<ExercisedWord> _wordsConsideredIncorrect = new List<ExercisedWord>();
-		private readonly IEnumerator<ExercisedWord> _wordsEnumerator;
-		private bool _isFinished;
-		private ExercisedWord _currentExercisedWord;
+			ExerciseTasks.Count(task => task.Answer == null),
+			ExerciseTasks.Count(task => task.Answer != null),
+			ExerciseTasks.Any(task => task.Answer != null),
+			ExerciseTasks.FirstOrDefault(task => task.Answer == null));
 	}
 }

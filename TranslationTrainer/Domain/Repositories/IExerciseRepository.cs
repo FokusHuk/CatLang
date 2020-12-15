@@ -1,13 +1,10 @@
 ﻿using System;
+using TranslationTrainer.Domain.Exercises;
 
 namespace TranslationTrainer.Domain
 {
 	public interface IExerciseRepository
 	{
-		IExercise GetExercise(Guid exerciseId);
-
-		void SaveExercise(IExercise exercise);
-
-		void DeleteExercise(Guid exerciseId);
+		void SaveExercise(SprintExercise exercise);
 	}
 }

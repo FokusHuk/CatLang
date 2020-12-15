@@ -20,33 +20,35 @@ namespace TranslationTrainer.Domain
 		
 		public ExerciseResult FinishExercise(Guid exerciseId)
 		{
-			var exercise = _exerciseRepository.GetExercise(exerciseId);
-			var exerciseStatus = exercise.Status;
+			//var exercise = _exerciseRepository.GetExercise(exerciseId);
+			//var exerciseStatus = new ExerciseStatusOld(Guid.NewGuid(), 0, 0, true, null, null, null);
+			//
+			//var user = _userRepository.Load(exercise.UserId);
+			//if (user == null)
+			//{
+			//	throw new UserNotFoundException(exercise.UserId);
+			//}
+//
+			//var translationsDictionary = _wordsRepository.LoadAll()
+			//	.ToDictionary(word => word.Original);
+//
+			//var exercisedWordsWithResults = exerciseStatus.WordsConsideredCorrect
+			//	.Select(word => GetResultForExercisedWord(translationsDictionary, word, true))
+			//	.Concat(exerciseStatus.WordsConsideredIncorrect.Select(
+			//		word => GetResultForExercisedWord(translationsDictionary, word, false)))
+			//	.ToArray();
+//
+			//ApplyExerciseResult(user, exercisedWordsWithResults);
+//
+			//var learnedWords = GetLearnedWords(user, exercisedWordsWithResults);
+//
+			//var exerciseResult = new ExerciseResult(exercise.ExerciseId, exercise.UserId, exercisedWordsWithResults, learnedWords);
+//
+			//_exerciseRepository.DeleteExercise(exerciseId);
+//
+			//return exerciseResult;
 			
-			var user = _userRepository.Load(exercise.UserId);
-			if (user == null)
-			{
-				throw new UserNotFoundException(exercise.UserId);
-			}
-
-			var translationsDictionary = _wordsRepository.LoadAll()
-				.ToDictionary(word => word.Original);
-
-			var exercisedWordsWithResults = exerciseStatus.WordsConsideredCorrect
-				.Select(word => GetResultForExercisedWord(translationsDictionary, word, true))
-				.Concat(exerciseStatus.WordsConsideredIncorrect.Select(
-					word => GetResultForExercisedWord(translationsDictionary, word, false)))
-				.ToArray();
-
-			ApplyExerciseResult(user, exercisedWordsWithResults);
-
-			var learnedWords = GetLearnedWords(user, exercisedWordsWithResults);
-
-			var exerciseResult = new ExerciseResult(exercise.ExerciseId, exercise.UserId, exercisedWordsWithResults, learnedWords);
-
-			_exerciseRepository.DeleteExercise(exerciseId);
-
-			return exerciseResult;
+			throw new NotImplementedException("to delete");
 		}
 		
 		private ExercisedWordWithResult GetResultForExercisedWord(

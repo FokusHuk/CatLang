@@ -10,13 +10,12 @@ namespace TranslationTrainer.Domain.Exercises
         public bool Correct { get; }
         public bool Answer { get; }
 
-        public SprintExerciseTask(Guid exerciseId, string original, string translation, bool correct, bool answer)
+        public SprintExerciseTask(Guid exerciseId, string original, string translation, bool correct)
         {
             ExerciseId = exerciseId;
             Original = original;
             Translation = translation;
             Correct = correct;
-            Answer = answer;
         }
     }
 }

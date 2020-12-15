@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using TranslationTrainer.Domain.Exercises;
 
 namespace TranslationTrainer.Domain
 {
 	public interface IExerciseFactory
 	{
-		IExercise Create(Guid userId);
+		SprintExercise CreateSprintExercise(Guid userId, Guid exerciseId);
 	}
 }

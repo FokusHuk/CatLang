@@ -14,5 +14,10 @@ namespace TranslationTrainer.Infrastructure
         {
             return _sprintExerciseTasks.Where(task => task.ExerciseId == exerciseId);
         }
+
+        public void SaveSprintExerciseTasks(IEnumerable<SprintExerciseTask> exerciseTasks)
+        {
+            _sprintExerciseTasks.AddRange(exerciseTasks);
+        }
     }
 }

@@ -9,55 +9,50 @@ namespace TranslationTrainer.Domain
 		public ExerciseFactory(
 			IUserRepository userRepository,
 			IWordsRepository wordsRepository,
+			IExerciseTasksRepository tasksRepository,
 			TranslationTrainerSettings settings)
 		{
-			_userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 			_wordsRepository = wordsRepository ?? throw new ArgumentNullException(nameof(wordsRepository));
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
 		}
 
-		public IExercise Create(Guid userId)
+		public SprintExercise CreateSprintExercise(Guid userId, Guid exerciseId)
 		{
-			var user = _userRepository.Load(userId);
-			if (user == null)
-			{
-				throw new UserNotFoundException(userId);
-			}
-
-			var allWords = _wordsRepository.LoadAll().ToArray();
-
-			var userCompletedWords = user.StudiedWords
-				.Where(IsUncomplete)
-				.Select(word => word.Word);
-
 			var random = new Random();
-			var wordsForExercise = allWords
-				.Except(userCompletedWords)
+			var allWords = _wordsRepository.LoadAll().ToArray();
+			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
 				.Take(_settings.ExerciseWordsCount)
-				.Select(word => GetExercisedWord(word, allWords, random));
-
-			return new SprintExercise(Guid.NewGuid(), userId, wordsForExercise);
+				.Select(word => GetSprintExerciseTask(exerciseId, word, allWords, random));
+			
+			return new SprintExercise(exerciseId, userId, exerciseTasks);
 		}
 
-		private bool IsUncomplete(StudiedWord studiedWord)
-		{
-			return studiedWord.TimesLearned < _settings.UserWordsToCompletion;
-		}
-
-		private static ExercisedWord GetExercisedWord(Word word, Word[] allWords, Random random)
+		private static SprintExerciseTask GetSprintExerciseTask(
+			Guid exerciseId,
+			Word word,
+			Word[] allWords,
+			Random random)
 		{
 			var shouldReplaceTranslation = random.Next() % 2 == 0;
+			
 			if (!shouldReplaceTranslation)
 			{
-				return new ExercisedWord(word.Original, word.Translation);
+				return new SprintExerciseTask(
+					exerciseId,
+					word.Original,
+					word.Translation,
+					true);
 			}
 
-			var alternaveTranslation = allWords[random.Next(allWords.Length)].Translation;
-			return new ExercisedWord(word.Original, alternaveTranslation);
-		} 
+			var alternativeTranslation = allWords[random.Next(allWords.Length)].Translation;
+			return new SprintExerciseTask(
+				exerciseId,
+				word.Original,
+				alternativeTranslation,
+				true);
+		}
 
-		private readonly IUserRepository _userRepository;
 		private readonly IWordsRepository _wordsRepository;
 		private readonly TranslationTrainerSettings _settings;
 	}
