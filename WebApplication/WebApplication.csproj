@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TranslationTrainer\TranslationTrainer.csproj" />
+      <ProjectReference Include="..\TranslationTrainer.Core\TranslationTrainer.Core.csproj" />
     </ItemGroup>
 
 
