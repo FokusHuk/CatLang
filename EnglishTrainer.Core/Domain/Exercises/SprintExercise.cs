@@ -31,6 +31,12 @@ namespace EnglishTrainer.Core.Domain.Exercises
 		{
 			if (ExerciseTasks.All(task => task.IsCompleted))
 				throw new AllExerciseTasksCompletedException(ExerciseId);
+
+			if (!ExerciseTasks
+				.Where(task => !task.IsCompleted)
+				.Select(task => task.Original)
+				.Contains(original))
+				throw new ExerciseTasksWordNotFoundException(ExerciseId, original);
 			
 			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
 		}
