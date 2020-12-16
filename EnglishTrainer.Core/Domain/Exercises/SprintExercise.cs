@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EnglishTrainer.Core.Domain.Exceptions;
 
 namespace EnglishTrainer.Core.Domain.Exercises
 {
@@ -28,6 +29,9 @@ namespace EnglishTrainer.Core.Domain.Exercises
 
 		public void CommitAnswer(string original, bool answer)
 		{
+			if (ExerciseTasks.All(task => task.IsCompleted))
+				throw new AllExerciseTasksCompletedException(ExerciseId);
+			
 			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
 		}
 		

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Exercises.DTOs;
