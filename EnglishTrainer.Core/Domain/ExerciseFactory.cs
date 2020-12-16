@@ -29,7 +29,7 @@ namespace EnglishTrainer.Core.Domain
 			return new SprintExercise(exerciseId, userId, exerciseTasks);
 		}
 		
-		public ChoiseExercise CreateChoiceExercise(Guid userId, Guid exerciseId)
+		public ChoiceExercise CreateChoiceExercise(Guid userId, Guid exerciseId)
 		{
 			var random = new Random();
 			var allWords = _wordsRepository.LoadAll().ToArray();
@@ -38,7 +38,7 @@ namespace EnglishTrainer.Core.Domain
 				.Take(_settings.ExerciseTasksCount)
 				.Select(word => GetChoiceExerciseTask(word, allWords));
 			
-			return new ChoiseExercise(exerciseId, userId, exerciseTasks);
+			return new ChoiceExercise(exerciseId, userId, exerciseTasks);
 		}
 
 		private SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords)

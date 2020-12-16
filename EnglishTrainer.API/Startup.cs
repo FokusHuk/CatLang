@@ -30,7 +30,7 @@ namespace EnglishTrainer.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            TranslationTrainerSettings settings = new TranslationTrainerSettings(5, 3);
+            TranslationTrainerSettings settings = new TranslationTrainerSettings(5, 3, 4);
             
             services.AddSingleton<IWordsRepository, WordsRepository>();
             services.AddSingleton<IExerciseRepository, ExerciseRepository>();

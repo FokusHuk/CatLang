@@ -1,6 +1,7 @@
 ﻿using System;
 using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises.Choise;
 using EnglishTrainer.Core.Domain.Exercises.DTOs;
 using EnglishTrainer.Core.Domain.Repositories;
 
@@ -41,6 +42,35 @@ namespace EnglishTrainer.Core.Application
 			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
 			var result = exercise.Result();
 			_exerciseRepository.DeleteSprintExercise(exerciseId);
+			return result;
+		}
+		
+		
+		public ChoiceExerciseStatusDTO StartChoiceExercise(Guid userId)
+		{
+			var exerciseId = Guid.NewGuid();
+			var exercise = _factory.CreateChoiceExercise(userId, exerciseId);
+			_exerciseRepository.SaveExercise(exercise);
+			return ChoiceExerciseStatusDTO.Create(exercise.Status());
+		}
+
+		public ChoiceExerciseStatusDTO CommitChoiceExerciseAnswer(
+			Guid userId, 
+			Guid exerciseId, 
+			string original, 
+			string answer)
+		{
+			var exercise = _exerciseRepository.GetChoiceExercise(exerciseId);
+			exercise.CommitAnswer(original, answer);
+			_exerciseRepository.SaveExercise(exercise);
+			return ChoiceExerciseStatusDTO.Create(exercise.Status());
+		}
+
+		public ChoiceExerciseResult FinishChoiceExercise(Guid exerciseId)
+		{
+			var exercise = _exerciseRepository.GetChoiceExercise(exerciseId);
+			var result = exercise.Result();
+			_exerciseRepository.DeleteChoiceExercise(exerciseId);
 			return result;
 		}
 

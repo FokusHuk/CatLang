@@ -5,9 +5,9 @@ using EnglishTrainer.Core.Domain.Exceptions;
 
 namespace EnglishTrainer.Core.Domain.Exercises.Choise
 {
-    public class ChoiseExercise
+    public class ChoiceExercise
     {
-        public ChoiseExercise(Guid exerciseId, Guid userId, IEnumerable<ChoiceExerciseTask> exerciseTasks)
+        public ChoiceExercise(Guid exerciseId, Guid userId, IEnumerable<ChoiceExerciseTask> exerciseTasks)
         {
             ExerciseId = exerciseId;
             UserId = userId;
