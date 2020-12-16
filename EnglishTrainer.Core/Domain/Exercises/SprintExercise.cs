@@ -31,12 +31,15 @@ namespace EnglishTrainer.Core.Domain.Exercises
 			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
 		}
 		
-		public IEnumerable<SprintExerciseResult> Result() => ExerciseTasks
-			.Select(task => new SprintExerciseResult(
+		public SprintExerciseResult Result() => new SprintExerciseResult(
+			ExerciseTasks.Count(task => task.Answer == task.Correct),
+			ExerciseTasks.Count(task => task.Answer != task.Correct),
+			ExerciseTasks
+			.Select(task => new SprintExerciseTaskResult(
 				task.Original,
 				task.Translation,
 				task.Correct,
 				task.Answer,
-				task.Correct == task.Answer));
+				task.Correct == task.Answer)));
 	}
 }

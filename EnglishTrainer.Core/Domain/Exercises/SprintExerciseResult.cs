@@ -1,20 +1,18 @@
-﻿namespace EnglishTrainer.Core.Domain.Exercises
+﻿using System.Collections.Generic;
+
+namespace EnglishTrainer.Core.Domain.Exercises
 {
     public class SprintExerciseResult
     {
-        public string Original { get; }
-        public string Translation { get; }
-        public bool CorrectAnswer { get; }
-        public bool UserAnswer { get; }
-        public bool IsUserAnswerCorrect { get; }
+        public int CorrectTasksCount { get; }
+        public int IncorrectTasksCount { get; }
+        public List<SprintExerciseTaskResult> Tasks { get; }
 
-        public SprintExerciseResult(string original, string translation, bool correctAnswer, bool userAnswer, bool isUserAnswerCorrect)
+        public SprintExerciseResult(int correctTasksCount, int incorrectTasksCount, IEnumerable<SprintExerciseTaskResult> tasks)
         {
-            Original = original;
-            Translation = translation;
-            CorrectAnswer = correctAnswer;
-            UserAnswer = userAnswer;
-            IsUserAnswerCorrect = isUserAnswerCorrect;
+            CorrectTasksCount = correctTasksCount;
+            IncorrectTasksCount = incorrectTasksCount;
+            Tasks = new List<SprintExerciseTaskResult>(tasks);
         }
     }
 }

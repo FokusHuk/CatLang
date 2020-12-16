@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises.DTOs;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Application
@@ -16,15 +17,15 @@ namespace EnglishTrainer.Core.Application
 			_exerciseRepository = repository ?? throw new ArgumentNullException(nameof(repository));
 		}
 
-		public SprintExerciseStatus StartSprintExercise(Guid userId)
+		public SprintExerciseStatusDTO StartSprintExercise(Guid userId)
 		{
 			var exerciseId = Guid.NewGuid();
 			var exercise = _factory.CreateSprintExercise(userId, exerciseId);
 			_exerciseRepository.SaveExercise(exercise);
-			return exercise.Status();
+			return SprintExerciseStatusDTO.Create(exercise.Status());
 		}
 
-		public SprintExerciseStatus CommitSprintExerciseAnswer(
+		public SprintExerciseStatusDTO CommitSprintExerciseAnswer(
 			Guid userId, 
 			Guid exerciseId, 
 			string original, 
@@ -33,10 +34,10 @@ namespace EnglishTrainer.Core.Application
 			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
 			exercise.CommitAnswer(original, answer);
 			_exerciseRepository.SaveExercise(exercise);
-			return exercise.Status();
+			return SprintExerciseStatusDTO.Create(exercise.Status());
 		}
 
-		public IEnumerable<SprintExerciseResult> FinishSprintExercise(Guid exerciseId)
+		public SprintExerciseResult FinishSprintExercise(Guid exerciseId)
 		{
 			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
 			var result = exercise.Result();
