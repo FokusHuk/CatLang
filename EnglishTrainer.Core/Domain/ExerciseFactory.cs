@@ -73,10 +73,12 @@ namespace EnglishTrainer.Core.Domain
 				{
 					translations[i] = word.Translation;
 				}
-				
-				translations[i] = allWords
-					.Except(new[]{word})
-					.ToArray()[random.Next(allWords.Length - 1)].Translation;
+				else
+				{
+					translations[i] = allWords
+						.Except(new[] {word})
+						.ToArray()[random.Next(allWords.Length - 1)].Translation;
+				}
 			}
 
 			return new ChoiceExerciseTask(
