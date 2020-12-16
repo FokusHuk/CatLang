@@ -4,15 +4,19 @@ namespace EnglishTrainer.Core
 {
 	public class TranslationTrainerSettings
 	{
-		public TranslationTrainerSettings(int exerciseWordsCount, int userWordsToCompletion)
+		public TranslationTrainerSettings(int exerciseTasksCount, int userWordsToCompletion, int wordsCountInChoiceExerciseTask)
 		{
-			if (exerciseWordsCount <= 0) throw new ArgumentOutOfRangeException(nameof(exerciseWordsCount));
+			if (exerciseTasksCount <= 0) throw new ArgumentOutOfRangeException(nameof(exerciseTasksCount));
 			if (userWordsToCompletion <= 0) throw new ArgumentOutOfRangeException(nameof(userWordsToCompletion));
-			ExerciseWordsCount = exerciseWordsCount;
+			if (wordsCountInChoiceExerciseTask <= 0) throw new ArgumentOutOfRangeException(nameof(wordsCountInChoiceExerciseTask));
+			ExerciseTasksCount = exerciseTasksCount;
 			UserWordsToCompletion = userWordsToCompletion;
+			WordsCountInChoiceExerciseTask = wordsCountInChoiceExerciseTask;
 		}
 
-		public int ExerciseWordsCount { get; }
+		public int ExerciseTasksCount { get; }
+		
+		public int WordsCountInChoiceExerciseTask { get; }
 
 		public int UserWordsToCompletion { get; }
 	}

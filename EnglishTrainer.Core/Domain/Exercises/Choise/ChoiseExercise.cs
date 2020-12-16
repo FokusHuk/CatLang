@@ -7,11 +7,11 @@ namespace EnglishTrainer.Core.Domain.Exercises.Choise
 {
     public class ChoiseExercise
     {
-        public ChoiseExercise(Guid exerciseId, Guid userId, List<ChoiceExerciseTask> exerciseTasks)
+        public ChoiseExercise(Guid exerciseId, Guid userId, IEnumerable<ChoiceExerciseTask> exerciseTasks)
         {
             ExerciseId = exerciseId;
             UserId = userId;
-            ExerciseTasks = exerciseTasks;
+            ExerciseTasks = new List<ChoiceExerciseTask>(exerciseTasks);
         }
         
         public Guid ExerciseId { get; }

@@ -2,6 +2,7 @@
 using System.Linq;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Exercises;
+using EnglishTrainer.Core.Domain.Exercises.Choise;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Domain
@@ -22,13 +23,25 @@ namespace EnglishTrainer.Core.Domain
 			var allWords = _wordsRepository.LoadAll().ToArray();
 			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
-				.Take(_settings.ExerciseWordsCount)
+				.Take(_settings.ExerciseTasksCount)
 				.Select(word => GetSprintExerciseTask(word, allWords));
 			
 			return new SprintExercise(exerciseId, userId, exerciseTasks);
 		}
+		
+		public ChoiseExercise CreateChoiceExercise(Guid userId, Guid exerciseId)
+		{
+			var random = new Random();
+			var allWords = _wordsRepository.LoadAll().ToArray();
+			var exerciseTasks = allWords
+				.OrderBy(_ => random.Next())
+				.Take(_settings.ExerciseTasksCount)
+				.Select(word => GetChoiceExerciseTask(word, allWords));
+			
+			return new ChoiseExercise(exerciseId, userId, exerciseTasks);
+		}
 
-		private static SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords)
+		private SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords)
 		{
 			var random = new Random();
 			var shouldReplaceTranslation = random.Next() % 2 == 0;
@@ -46,6 +59,30 @@ namespace EnglishTrainer.Core.Domain
 				word.Original,
 				alternativeTranslation,
 				false);
+		}
+		
+		private ChoiceExerciseTask GetChoiceExerciseTask(Word word, Word[] allWords)
+		{
+			var random = new Random();
+			var correctWordPosition = random.Next(_settings.WordsCountInChoiceExerciseTask);
+			var translations = new string[_settings.WordsCountInChoiceExerciseTask];
+
+			for (int i = 0; i < _settings.WordsCountInChoiceExerciseTask; i++)
+			{
+				if (i == correctWordPosition)
+				{
+					translations[i] = word.Translation;
+				}
+				
+				translations[i] = allWords
+					.Except(new[]{word})
+					.ToArray()[random.Next(allWords.Length - 1)].Translation;
+			}
+
+			return new ChoiceExerciseTask(
+				word.Original,
+				translations,
+				word.Translation);
 		}
 
 		private readonly IWordsRepository _wordsRepository;
