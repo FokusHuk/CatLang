@@ -5,16 +5,16 @@ namespace EnglishTrainer.Core.Domain.Exercises.DTOs
     public class SprintExerciseStatusDTO
     {
         public Guid ExerciseId { get; set; }
-        public int WordsDone { get; set; }
-        public int WordsLeft { get; set; }
+        public int TasksDone { get; set; }
+        public int TasksLeft { get; set; }
         public bool IsFinished { get; set; }
         public SprintExerciseTaskDTO CurrentTask { get; set; }
 
-        public SprintExerciseStatusDTO(Guid exerciseId, int wordsDone, int wordsLeft, bool isFinished, SprintExerciseTaskDTO currentTask)
+        public SprintExerciseStatusDTO(Guid exerciseId, int tasksDone, int tasksLeft, bool isFinished, SprintExerciseTaskDTO currentTask)
         {
             ExerciseId = exerciseId;
-            WordsDone = wordsDone;
-            WordsLeft = wordsLeft;
+            TasksDone = tasksDone;
+            TasksLeft = tasksLeft;
             IsFinished = isFinished;
             CurrentTask = currentTask;
         }
@@ -23,8 +23,8 @@ namespace EnglishTrainer.Core.Domain.Exercises.DTOs
         {
             return new SprintExerciseStatusDTO(
                 status.ExerciseId,
-                status.WordsDone,
-                status.WordsLeft,
+                status.TasksDone,
+                status.TasksLeft,
                 status.IsFinished,
                 SprintExerciseTaskDTO.Create(status.CurrentTask));
         }
