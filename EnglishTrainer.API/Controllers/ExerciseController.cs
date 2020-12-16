@@ -1,10 +1,12 @@
 ﻿using System;
+using EnglishTrainer.API.Filters;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
+    [GlobalExceptionsFilter]
     [Route("exercises")]
     public class ExerciseController : ControllerBase
     {
