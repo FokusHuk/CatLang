@@ -9,7 +9,6 @@ namespace EnglishTrainer.Core.Domain
 	public class ExerciseFactory : IExerciseFactory
 	{
 		public ExerciseFactory(
-			IUserRepository userRepository,
 			IWordsRepository wordsRepository,
 			TranslationTrainerSettings settings)
 		{
@@ -24,13 +23,14 @@ namespace EnglishTrainer.Core.Domain
 			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
 				.Take(_settings.ExerciseWordsCount)
-				.Select(word => GetSprintExerciseTask(word, allWords, random));
+				.Select(word => GetSprintExerciseTask(word, allWords));
 			
 			return new SprintExercise(exerciseId, userId, exerciseTasks);
 		}
 
-		private static SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords, Random random)
+		private static SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords)
 		{
+			var random = new Random();
 			var shouldReplaceTranslation = random.Next() % 2 == 0;
 			
 			if (!shouldReplaceTranslation)
@@ -45,7 +45,7 @@ namespace EnglishTrainer.Core.Domain
 			return new SprintExerciseTask(
 				word.Original,
 				alternativeTranslation,
-				true);
+				false);
 		}
 
 		private readonly IWordsRepository _wordsRepository;

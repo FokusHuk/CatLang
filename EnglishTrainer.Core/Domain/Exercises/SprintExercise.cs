@@ -10,20 +10,20 @@ namespace EnglishTrainer.Core.Domain.Exercises
 		{
 			ExerciseId = exerciseId;
 			UserId = userId;
-			ExerciseTasks = exerciseTasks;
+			ExerciseTasks = new List<SprintExerciseTask>(exerciseTasks);
 		}
 		
 		public Guid ExerciseId { get; }
 		
 		public Guid UserId { get; }
 		
-		public IEnumerable<SprintExerciseTask> ExerciseTasks { get; }
+		public List<SprintExerciseTask> ExerciseTasks { get; }
 
-		public SprintExerciseStatus Status => new SprintExerciseStatus(
+		public SprintExerciseStatus Status() => new SprintExerciseStatus(
 			ExerciseId,
 			ExerciseTasks.Count(task => task.IsCompleted),
 			ExerciseTasks.Count(task => !task.IsCompleted),
-			ExerciseTasks.Any(task => task.IsCompleted),
+			ExerciseTasks.TrueForAll(task => task.IsCompleted),
 			ExerciseTasks.FirstOrDefault(task => !task.IsCompleted));
 
 		public void CommitAnswer(string original, bool answer)
@@ -31,7 +31,7 @@ namespace EnglishTrainer.Core.Domain.Exercises
 			ExerciseTasks.Single(task => task.Original == original).Answer = answer;
 		}
 		
-		public IEnumerable<SprintExerciseResult> Result => ExerciseTasks
+		public IEnumerable<SprintExerciseResult> Result() => ExerciseTasks
 			.Select(task => new SprintExerciseResult(
 				task.Original,
 				task.Translation,

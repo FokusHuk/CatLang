@@ -21,7 +21,7 @@ namespace EnglishTrainer.Core.Application
 			var exerciseId = Guid.NewGuid();
 			var exercise = _factory.CreateSprintExercise(userId, exerciseId);
 			_exerciseRepository.SaveExercise(exercise);
-			return exercise.Status;
+			return exercise.Status();
 		}
 
 		public SprintExerciseStatus CommitSprintExerciseAnswer(
@@ -33,13 +33,13 @@ namespace EnglishTrainer.Core.Application
 			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
 			exercise.CommitAnswer(original, answer);
 			_exerciseRepository.SaveExercise(exercise);
-			return exercise.Status;
+			return exercise.Status();
 		}
 
 		public IEnumerable<SprintExerciseResult> FinishSprintExercise(Guid exerciseId)
 		{
 			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
-			var result = exercise.Result;
+			var result = exercise.Result();
 			_exerciseRepository.DeleteSprintExercise(exerciseId);
 			return result;
 		}
