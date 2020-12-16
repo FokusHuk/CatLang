@@ -8,7 +8,11 @@
         public bool UserAnswer { get; }
         public bool IsUserAnswerCorrect { get; }
 
-        public SprintExerciseTaskResult(string original, string translation, bool correctAnswer, bool userAnswer, bool isUserAnswerCorrect)
+        public SprintExerciseTaskResult(string original, 
+            string translation, 
+            bool correctAnswer, 
+            bool userAnswer, 
+            bool isUserAnswerCorrect)
         {
             Original = original;
             Translation = translation;
