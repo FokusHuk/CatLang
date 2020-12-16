@@ -13,7 +13,7 @@ namespace EnglishTrainer.Core.Application
 		SprintExerciseResult FinishSprintExercise(Guid exerciseId);
 		
 		ChoiceExerciseStatusDTO StartChoiceExercise(Guid userId);
-		ChoiceExerciseStatusDTO CommitChoiceExerciseAnswer(Guid userId, Guid exerciseId, string original, string isCorrect);
+		ChoiceExerciseStatusDTO CommitChoiceExerciseAnswer(Guid userId, Guid exerciseId, string original, string answer);
 		ChoiceExerciseResult FinishChoiceExercise(Guid exerciseId);
 	}
 }
