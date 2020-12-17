@@ -2,20 +2,20 @@
 
 namespace EnglishTrainer.Core.Domain.Exercises.DTOs
 {
-    public class ExerciseStatusDto<TPossibleAnswer, TUserAnswer> 
+    public class ExerciseStatusDto<TOption, TAnswer> 
     {
         public Guid ExerciseId { get; set; }
         public int TasksDone { get; set; }
         public int TasksLeft { get; set; }
         public bool IsFinished { get; set; }
-        public ExerciseTaskDto<TPossibleAnswer, TUserAnswer> CurrentTask { get; set; }
+        public ExerciseTaskDto<TOption, TAnswer> CurrentTask { get; set; }
 
         public ExerciseStatusDto(
             Guid exerciseId, 
             int tasksDone, 
             int tasksLeft, 
             bool isFinished, 
-            ExerciseTaskDto<TPossibleAnswer, TUserAnswer>  currentTask)
+            ExerciseTaskDto<TOption, TAnswer>  currentTask)
         {
             ExerciseId = exerciseId;
             TasksDone = tasksDone;
@@ -24,14 +24,14 @@ namespace EnglishTrainer.Core.Domain.Exercises.DTOs
             CurrentTask = currentTask;
         }
 
-        public static ExerciseStatusDto<TPossibleAnswer, TUserAnswer>  Create(ExerciseStatus<TPossibleAnswer, TUserAnswer>  status)
+        public static ExerciseStatusDto<TOption, TAnswer>  Create(ExerciseStatus<TOption, TAnswer>  status)
         {
-            return new ExerciseStatusDto<TPossibleAnswer, TUserAnswer>(
+            return new ExerciseStatusDto<TOption, TAnswer>(
                 status.ExerciseId,
                 status.TasksDone,
                 status.TasksLeft,
                 status.IsFinished,
-                ExerciseTaskDto<TPossibleAnswer, TUserAnswer>.Create(status.CurrentTask));
+                ExerciseTaskDto<TOption, TAnswer>.Create(status.CurrentTask));
         }
     }
 }

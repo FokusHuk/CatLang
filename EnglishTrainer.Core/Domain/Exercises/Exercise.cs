@@ -5,17 +5,17 @@ using EnglishTrainer.Core.Domain.Exceptions;
 
 namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class Exercise<TPossibleAnswer, TUserAnswer>
+    public class Exercise<TOption, TAnswer>
     {
         public Exercise(Guid exerciseId, 
             Guid userId, 
             ExerciseType type, 
-            IEnumerable<ExerciseTask<TPossibleAnswer, TUserAnswer>> exerciseTasks)
+            IEnumerable<ExerciseTask<TOption, TAnswer>> exerciseTasks)
         {
             ExerciseId = exerciseId;
             UserId = userId;
             Type = type;
-            ExerciseTasks = new List<ExerciseTask<TPossibleAnswer, TUserAnswer>>(exerciseTasks);
+            ExerciseTasks = new List<ExerciseTask<TOption, TAnswer>>(exerciseTasks);
         }
 		
         public Guid ExerciseId { get; }
@@ -24,16 +24,16 @@ namespace EnglishTrainer.Core.Domain.Exercises
         
         public ExerciseType Type { get; }
 		
-        public List<ExerciseTask<TPossibleAnswer, TUserAnswer>> ExerciseTasks { get; }
+        public List<ExerciseTask<TOption, TAnswer>> ExerciseTasks { get; }
 
-        public ExerciseStatus<TPossibleAnswer, TUserAnswer> Status() => new ExerciseStatus<TPossibleAnswer, TUserAnswer>(
+        public ExerciseStatus<TOption, TAnswer> Status() => new ExerciseStatus<TOption, TAnswer>(
             ExerciseId,
             ExerciseTasks.Count(task => task.IsCompleted),
             ExerciseTasks.Count(task => !task.IsCompleted),
             ExerciseTasks.TrueForAll(task => task.IsCompleted),
             ExerciseTasks.FirstOrDefault(task => !task.IsCompleted));
 
-        public void CommitAnswer(string original, TUserAnswer answer)
+        public void CommitAnswer(string original, TAnswer answer)
         {
             if (ExerciseTasks.All(task => task.IsCompleted))
                 throw new AllExerciseTasksCompletedException(ExerciseId);
@@ -47,11 +47,11 @@ namespace EnglishTrainer.Core.Domain.Exercises
             ExerciseTasks.Single(task => task.Original == original).Answer = answer;
         }
 		
-        public ExerciseResult<TPossibleAnswer, TUserAnswer> Result() => new ExerciseResult<TPossibleAnswer, TUserAnswer>(
+        public ExerciseResult<TOption, TAnswer> Result() => new ExerciseResult<TOption, TAnswer>(
             ExerciseTasks.Count(task => Equals(task.Answer, task.Correct)),
             ExerciseTasks.Count(task => !Equals(task.Answer, task.Correct)),
             ExerciseTasks
-                .Select(task => new ExerciseTaskResult<TPossibleAnswer, TUserAnswer>(
+                .Select(task => new ExerciseTaskResult<TOption, TAnswer>(
                     task.Original,
                     task.PossibleAnswer,
                     task.Correct,

@@ -1,17 +1,17 @@
 ﻿namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class ExerciseTaskResult<TPossibleAnswer, TUserAnswer>
+    public class ExerciseTaskResult<TOption, TAnswer>
     {
         public string Original { get; }
-        public TPossibleAnswer PossibleAnswer { get; }
-        public TUserAnswer CorrectAnswer { get; }
-        public TUserAnswer UserAnswer { get; }
+        public TOption PossibleAnswer { get; }
+        public TAnswer CorrectAnswer { get; }
+        public TAnswer UserAnswer { get; }
         public bool IsUserAnswerCorrect { get; }
 
         public ExerciseTaskResult(string original, 
-            TPossibleAnswer possibleAnswer, 
-            TUserAnswer correctAnswer, 
-            TUserAnswer userAnswer, 
+            TOption possibleAnswer, 
+            TAnswer correctAnswer, 
+            TAnswer userAnswer, 
             bool isUserAnswerCorrect)
         {
             Original = original;

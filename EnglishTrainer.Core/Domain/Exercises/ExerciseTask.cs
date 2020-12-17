@@ -1,8 +1,8 @@
 ﻿namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class ExerciseTask<TPossibleAnswer, TUserAnswer>
+    public class ExerciseTask<TOption, TAnswer>
     {
-        public ExerciseTask(string original, TPossibleAnswer translations, TUserAnswer correct, bool isCompleted = false)
+        public ExerciseTask(string original, TOption translations, TAnswer correct, bool isCompleted = false)
         {
             Original = original;
             PossibleAnswer = translations;
@@ -12,11 +12,11 @@
         
         public string Original { get; }
         
-        public TPossibleAnswer PossibleAnswer { get; }
+        public TOption PossibleAnswer { get; }
         
-        public TUserAnswer Correct { get; }
+        public TAnswer Correct { get; }
 
-        public TUserAnswer Answer
+        public TAnswer Answer
         {
             get => _answer;
             set
@@ -28,6 +28,6 @@
 
         public bool IsCompleted { get; private set; }
 
-        private TUserAnswer _answer;
+        private TAnswer _answer;
     }
 }

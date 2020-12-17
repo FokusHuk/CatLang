@@ -2,20 +2,20 @@
 
 namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class ExerciseResult<TPossibleAnswer, TUserAnswer>
+    public class ExerciseResult<TOption, TAnswer>
     {
         public int CorrectTasksCount { get; }
         public int IncorrectTasksCount { get; }
-        public List<ExerciseTaskResult<TPossibleAnswer, TUserAnswer>> Tasks { get; }
+        public List<ExerciseTaskResult<TOption, TAnswer>> Tasks { get; }
 
         public ExerciseResult(
             int correctTasksCount, 
             int incorrectTasksCount, 
-            IEnumerable<ExerciseTaskResult<TPossibleAnswer, TUserAnswer>> tasks)
+            IEnumerable<ExerciseTaskResult<TOption, TAnswer>> tasks)
         {
             CorrectTasksCount = correctTasksCount;
             IncorrectTasksCount = incorrectTasksCount;
-            Tasks = new List<ExerciseTaskResult<TPossibleAnswer, TUserAnswer>>(tasks);
+            Tasks = new List<ExerciseTaskResult<TOption, TAnswer>>(tasks);
         }
     }
 }
