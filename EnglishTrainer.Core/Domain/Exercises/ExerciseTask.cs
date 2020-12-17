@@ -1,26 +1,22 @@
 ﻿namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class SprintExerciseTask
+    public class ExerciseTask<TPossibleAnswer, TUserAnswer>
     {
-        public SprintExerciseTask(
-            string original,
-            string translation,
-            bool correct,
-            bool isCompleted = false)
+        public ExerciseTask(string original, TPossibleAnswer translations, TUserAnswer correct, bool isCompleted = false)
         {
             Original = original;
-            Translation = translation;
+            PossibleAnswer = translations;
             Correct = correct;
             IsCompleted = isCompleted;
         }
-
+        
         public string Original { get; }
+        
+        public TPossibleAnswer PossibleAnswer { get; }
+        
+        public TUserAnswer Correct { get; }
 
-        public string Translation { get; }
-
-        public bool Correct { get; }
-
-        public bool Answer
+        public TUserAnswer Answer
         {
             get => _answer;
             set
@@ -32,6 +28,6 @@
 
         public bool IsCompleted { get; private set; }
 
-        private bool _answer;
+        private TUserAnswer _answer;
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Exercises;
-using EnglishTrainer.Core.Domain.Exercises.Choise;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Domain
@@ -17,7 +16,7 @@ namespace EnglishTrainer.Core.Domain
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
 		}
 
-		public SprintExercise CreateSprintExercise(Guid userId, Guid exerciseId)
+		public Exercise<string, bool> CreateSprintExercise(Guid userId, Guid exerciseId)
 		{
 			var random = new Random();
 			var allWords = _wordsRepository.LoadAll().ToArray();
@@ -26,10 +25,10 @@ namespace EnglishTrainer.Core.Domain
 				.Take(_settings.ExerciseTasksCount)
 				.Select(word => GetSprintExerciseTask(word, allWords));
 			
-			return new SprintExercise(exerciseId, userId, exerciseTasks);
+			return new Exercise<string, bool>(exerciseId, userId, ExerciseType.Sprint, exerciseTasks);
 		}
 		
-		public ChoiceExercise CreateChoiceExercise(Guid userId, Guid exerciseId)
+		public Exercise<string[], string> CreateChoiceExercise(Guid userId, Guid exerciseId)
 		{
 			var random = new Random();
 			var allWords = _wordsRepository.LoadAll().ToArray();
@@ -38,30 +37,32 @@ namespace EnglishTrainer.Core.Domain
 				.Take(_settings.ExerciseTasksCount)
 				.Select(word => GetChoiceExerciseTask(word, allWords));
 			
-			return new ChoiceExercise(exerciseId, userId, exerciseTasks);
+			return new Exercise<string[], string>(exerciseId, userId, ExerciseType.Choice, exerciseTasks);
 		}
-
-		private SprintExerciseTask GetSprintExerciseTask(Word word, Word[] allWords)
+		
+		private ExerciseTask<string, bool> GetSprintExerciseTask(Word word, Word[] allWords)
 		{
 			var random = new Random();
 			var shouldReplaceTranslation = random.Next() % 2 == 0;
 			
 			if (!shouldReplaceTranslation)
 			{
-				return new SprintExerciseTask(
+				return new ExerciseTask<string, bool>(
 					word.Original,
 					word.Translation,
 					true);
 			}
 
-			var alternativeTranslation = allWords[random.Next(allWords.Length)].Translation;
-			return new SprintExerciseTask(
+			var alternativeTranslation = allWords
+				.Except(new[] {word})
+				.ToArray()[random.Next(allWords.Length - 1)].Translation;
+			return new ExerciseTask<string, bool>(
 				word.Original,
 				alternativeTranslation,
 				false);
 		}
 		
-		private ChoiceExerciseTask GetChoiceExerciseTask(Word word, Word[] allWords)
+		private ExerciseTask<string[], string> GetChoiceExerciseTask(Word word, Word[] allWords)
 		{
 			var random = new Random();
 			var correctWordPosition = random.Next(_settings.WordsCountInChoiceExerciseTask);
@@ -81,7 +82,7 @@ namespace EnglishTrainer.Core.Domain
 				}
 			}
 
-			return new ChoiceExerciseTask(
+			return new ExerciseTask<string[], string>(
 				word.Original,
 				translations,
 				word.Translation);

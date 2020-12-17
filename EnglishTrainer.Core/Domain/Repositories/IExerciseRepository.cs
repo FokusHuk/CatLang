@@ -1,17 +1,12 @@
 ﻿using System;
 using EnglishTrainer.Core.Domain.Exercises;
-using EnglishTrainer.Core.Domain.Exercises.Choise;
 
 namespace EnglishTrainer.Core.Domain.Repositories
 {
-	public interface IExerciseRepository
+	public interface IExerciseRepository<TPossibleAnswer, TUserAnswer>
 	{
-		void SaveExercise(SprintExercise exercise);
-		SprintExercise GetSprintExercise(Guid exerciseId);
-		void DeleteSprintExercise(Guid exerciseId);
-
-		void SaveExercise(ChoiceExercise exercise);
-		ChoiceExercise GetChoiceExercise(Guid exerciseId);
-		void DeleteChoiceExercise(Guid exerciseId);
+		void Save(Exercise<TPossibleAnswer, TUserAnswer> exercise);
+		Exercise<TPossibleAnswer, TUserAnswer> Get(Guid exerciseId);
+		void Delete(Guid exerciseId);
 	}
 }

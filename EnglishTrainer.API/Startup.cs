@@ -33,7 +33,7 @@ namespace EnglishTrainer.API
             TranslationTrainerSettings settings = new TranslationTrainerSettings(5, 3, 4);
             
             services.AddSingleton<IWordsRepository, WordsRepository>();
-            services.AddSingleton<IExerciseRepository, ExerciseRepository>();
+            services.AddSingleton<IExerciseRepositories, ExerciseRepositories>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton(settings);
             services.AddSingleton<IExerciseFactory, ExerciseFactory>();

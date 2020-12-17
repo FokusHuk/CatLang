@@ -2,14 +2,14 @@
 
 namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public class SprintExerciseStatus
+    public class ExerciseStatus<TPossibleAnswer, TUserAnswer>
     {
-        public SprintExerciseStatus(
+        public ExerciseStatus(
             Guid exerciseId, 
             int tasksDone, 
             int tasksLeft,
             bool isFinished,
-            SprintExerciseTask currentTask)
+            ExerciseTask<TPossibleAnswer, TUserAnswer> currentTask)
         {
             ExerciseId = exerciseId;
             TasksDone = tasksDone;
@@ -22,6 +22,6 @@ namespace EnglishTrainer.Core.Domain.Exercises
         public int TasksDone { get; }
         public int TasksLeft { get; }
         public bool IsFinished { get; }
-        public SprintExerciseTask CurrentTask { get; }
+        public ExerciseTask<TPossibleAnswer, TUserAnswer> CurrentTask { get; }
     }
 }

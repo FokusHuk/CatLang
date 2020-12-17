@@ -2,60 +2,34 @@
 using System.Collections.Generic;
 using EnglishTrainer.Core.Domain.Exceptions;
 using EnglishTrainer.Core.Domain.Exercises;
-using EnglishTrainer.Core.Domain.Exercises.Choise;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-	public class ExerciseRepository : IExerciseRepository
+	public class ExerciseRepository<TPossibleAnswer, TUserAnswer> : IExerciseRepository<TPossibleAnswer, TUserAnswer>
 	{
-		public void SaveExercise(SprintExercise exercise)
+		public void Save(Exercise<TPossibleAnswer, TUserAnswer>  exercise)
 		{
-			_sprintExerciseDictionary[exercise.ExerciseId] = exercise;
+			_exerciseDictionary[exercise.ExerciseId] = exercise;
 		}
 
-		public SprintExercise GetSprintExercise(Guid exerciseId)
+		public Exercise<TPossibleAnswer, TUserAnswer> Get(Guid exerciseId)
 		{
-			if (!_sprintExerciseDictionary.ContainsKey(exerciseId))
+			if (!_exerciseDictionary.ContainsKey(exerciseId))
 				throw new ExerciseNotFoundException(exerciseId);
 				
-			return _sprintExerciseDictionary[exerciseId];
+			return _exerciseDictionary[exerciseId];
 		}
 
-		public void DeleteSprintExercise(Guid exerciseId)
+		public void Delete(Guid exerciseId)
 		{
-			if (!_sprintExerciseDictionary.ContainsKey(exerciseId))
+			if (!_exerciseDictionary.ContainsKey(exerciseId))
 				throw new ExerciseNotFoundException(exerciseId);
 			
-			_sprintExerciseDictionary.Remove(exerciseId);
+			_exerciseDictionary.Remove(exerciseId);
 		}
 
-		
-		public void SaveExercise(ChoiceExercise exercise)
-		{
-			_choiceExerciseDictionary[exercise.ExerciseId] = exercise;
-		}
-
-		public ChoiceExercise GetChoiceExercise(Guid exerciseId)
-		{
-			if (!_choiceExerciseDictionary.ContainsKey(exerciseId))
-				throw new ExerciseNotFoundException(exerciseId);
-				
-			return _choiceExerciseDictionary[exerciseId];
-		}
-
-		public void DeleteChoiceExercise(Guid exerciseId)
-		{
-			if (!_choiceExerciseDictionary.ContainsKey(exerciseId))
-				throw new ExerciseNotFoundException(exerciseId);
-			
-			_choiceExerciseDictionary.Remove(exerciseId);
-		}
-		
-		private readonly Dictionary<Guid, SprintExercise> _sprintExerciseDictionary =
-			new Dictionary<Guid, SprintExercise>();
-		
-		private readonly Dictionary<Guid, ChoiceExercise> _choiceExerciseDictionary =
-			new Dictionary<Guid, ChoiceExercise>();
+		private readonly Dictionary<Guid, Exercise<TPossibleAnswer, TUserAnswer>> _exerciseDictionary =
+			new Dictionary<Guid, Exercise<TPossibleAnswer, TUserAnswer>>();
 	}
 }

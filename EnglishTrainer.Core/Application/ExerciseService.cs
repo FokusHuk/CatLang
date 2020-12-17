@@ -1,7 +1,6 @@
 ﻿using System;
 using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Exercises;
-using EnglishTrainer.Core.Domain.Exercises.Choise;
 using EnglishTrainer.Core.Domain.Exercises.DTOs;
 using EnglishTrainer.Core.Domain.Repositories;
 
@@ -11,71 +10,71 @@ namespace EnglishTrainer.Core.Application
 	{
 		public ExerciseService(
 			IExerciseFactory factory,
-			IExerciseRepository repository)
+			IExerciseRepositories exerciseRepositories)
 		{
 			_factory = factory ?? throw new ArgumentNullException(nameof(factory));
-			_exerciseRepository = repository ?? throw new ArgumentNullException(nameof(repository));
+			_exerciseRepositories = exerciseRepositories ?? throw new ArgumentNullException(nameof(exerciseRepositories));
 		}
 
-		public SprintExerciseStatusDTO StartSprintExercise(Guid userId)
+		public ExerciseStatusDto<string, bool> StartSprintExercise(Guid userId)
 		{
 			var exerciseId = Guid.NewGuid();
 			var exercise = _factory.CreateSprintExercise(userId, exerciseId);
-			_exerciseRepository.SaveExercise(exercise);
-			return SprintExerciseStatusDTO.Create(exercise.Status());
+			_exerciseRepositories.ForSprint().Save(exercise);
+			return ExerciseStatusDto<string, bool>.Create(exercise.Status());
 		}
 
-		public SprintExerciseStatusDTO CommitSprintExerciseAnswer(
+		public ExerciseStatusDto<string, bool> CommitSprintExerciseAnswer(
 			Guid userId, 
 			Guid exerciseId, 
 			string original, 
 			bool answer)
 		{
-			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
+			var exercise = _exerciseRepositories.ForSprint().Get(exerciseId);
 			exercise.CommitAnswer(original, answer);
-			_exerciseRepository.SaveExercise(exercise);
-			return SprintExerciseStatusDTO.Create(exercise.Status());
+			_exerciseRepositories.ForSprint().Save(exercise);
+			return ExerciseStatusDto<string, bool>.Create(exercise.Status());
 		}
 
-		public SprintExerciseResult FinishSprintExercise(Guid exerciseId)
+		public ExerciseResult<string, bool> FinishSprintExercise(Guid exerciseId)
 		{
-			var exercise = _exerciseRepository.GetSprintExercise(exerciseId);
+			var exercise = _exerciseRepositories.ForSprint().Get(exerciseId);
 			var result = exercise.Result();
-			_exerciseRepository.DeleteSprintExercise(exerciseId);
+			_exerciseRepositories.ForSprint().Delete(exerciseId);
 			return result;
 		}
+
 		
-		
-		public ChoiceExerciseStatusDTO StartChoiceExercise(Guid userId)
+		public ExerciseStatusDto<string[], string> StartChoiceExercise(Guid userId)
 		{
 			var exerciseId = Guid.NewGuid();
 			var exercise = _factory.CreateChoiceExercise(userId, exerciseId);
-			_exerciseRepository.SaveExercise(exercise);
-			return ChoiceExerciseStatusDTO.Create(exercise.Status());
+			_exerciseRepositories.ForChoice().Save(exercise);
+			return ExerciseStatusDto<string[], string>.Create(exercise.Status());
 		}
 
-		public ChoiceExerciseStatusDTO CommitChoiceExerciseAnswer(
+		public ExerciseStatusDto<string[], string> CommitChoiceExerciseAnswer(
 			Guid userId, 
 			Guid exerciseId, 
 			string original, 
 			string answer)
 		{
-			var exercise = _exerciseRepository.GetChoiceExercise(exerciseId);
+			var exercise = _exerciseRepositories.ForChoice().Get(exerciseId);
 			exercise.CommitAnswer(original, answer);
-			_exerciseRepository.SaveExercise(exercise);
-			return ChoiceExerciseStatusDTO.Create(exercise.Status());
+			_exerciseRepositories.ForChoice().Save(exercise);
+			return ExerciseStatusDto<string[], string>.Create(exercise.Status());
 		}
 
-		public ChoiceExerciseResult FinishChoiceExercise(Guid exerciseId)
+		public ExerciseResult<string[], string> FinishChoiceExercise(Guid exerciseId)
 		{
-			var exercise = _exerciseRepository.GetChoiceExercise(exerciseId);
+			var exercise = _exerciseRepositories.ForChoice().Get(exerciseId);
 			var result = exercise.Result();
-			_exerciseRepository.DeleteChoiceExercise(exerciseId);
+			_exerciseRepositories.ForChoice().Delete(exerciseId);
 			return result;
 		}
 
 		private readonly IExerciseFactory _factory;
 
-		private readonly IExerciseRepository _exerciseRepository;
+		private readonly IExerciseRepositories _exerciseRepositories;
 	}
 }
