@@ -20,7 +20,7 @@ namespace EnglishTrainer.Core.Application
 			var userId = Guid.NewGuid();
 			var credentials = Credentials.FromLoginAndPassword(userName, password);
 			var user = new User(userId, credentials);
-			_userRepository.Save(user);
+			_userRepository.Create(user);
 
 			return userId;
 		}

@@ -7,21 +7,21 @@ namespace EnglishTrainer.Core.Infrastructure
 {
 	public class UserRepository : IUserRepository
 	{
-		public User Load(Guid userId)
+		public User GetById(Guid userId)
 		{
 			return new User(
 				userId,
 				Credentials.FromLoginAndPassword("login", "password"));
 		}
 
-		public User Load(string login)
+		public User GetByLogin(string login)
 		{
 			return new User(
 				Guid.NewGuid(),
 				Credentials.FromLoginAndPassword("login", "password"));
 		}
 
-		public void Save(User user)
+		public void Create(User user)
 		{
 			
 		}

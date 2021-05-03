@@ -5,8 +5,8 @@ namespace EnglishTrainer.Core.Domain.Repositories
 {
 	public interface IUserRepository
 	{
-		User Load(Guid userId);
-		User Load(string login);
-		void Save(User user);
+		User GetById(Guid userId);
+		User GetByLogin(string login);
+		void Create(User user);
 	}
 }
