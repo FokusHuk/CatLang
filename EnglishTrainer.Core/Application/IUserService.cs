@@ -6,7 +6,7 @@ namespace EnglishTrainer.Core.Application
 {
 	public interface IUserService
 	{
-		Guid RegisterUser(string userName, string password);
+		Guid RegisterUser(string username, string login, string password);
 
 		IEnumerable<StudiedWord> GetStudiedWords(Guid userId);
 	}

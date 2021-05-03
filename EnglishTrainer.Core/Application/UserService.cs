@@ -12,14 +12,14 @@ namespace EnglishTrainer.Core.Application
 			_userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
 
-		public Guid RegisterUser(string userName, string password)
+		public Guid RegisterUser(string username, string login, string password)
 		{
-			if (userName == null) throw new ArgumentNullException(nameof(userName));
+			if (username == null) throw new ArgumentNullException(nameof(username));
 			if (password == null) throw new ArgumentNullException(nameof(password));
 
 			var userId = Guid.NewGuid();
-			var credentials = Credentials.FromLoginAndPassword(userName, password);
-			var user = new User(userId, credentials);
+			var credentials = Credentials.FromLoginAndPassword(login, password);
+			var user = new User(userId, username, credentials);
 			_userRepository.Create(user);
 
 			return userId;
