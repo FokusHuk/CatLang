@@ -19,7 +19,7 @@ namespace EnglishTrainer.Core.Application
 
 			var userId = Guid.NewGuid();
 			var credentials = Credentials.FromLoginAndPassword(userName, password);
-			var user = new User(userId, credentials, new StudiedWord[0]);
+			var user = new User(userId, credentials);
 			_userRepository.Save(user);
 
 			return userId;
@@ -27,13 +27,8 @@ namespace EnglishTrainer.Core.Application
 
 		public IEnumerable<StudiedWord> GetStudiedWords(Guid userId)
 		{
-			var user = _userRepository.Load(userId);
-			if (user != null)
-			{
-				return user.StudiedWords;
-			}
-
-			return new StudiedWord[0];
+			// TODO
+			return null;
 		}
 
 		private readonly IUserRepository _userRepository;
