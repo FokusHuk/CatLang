@@ -2,6 +2,7 @@
 {
     public enum WordsSetComplexity
     {
+        Undefined,
         Low,
         Medium,
         High

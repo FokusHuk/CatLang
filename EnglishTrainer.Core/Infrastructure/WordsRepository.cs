@@ -61,5 +61,18 @@ namespace EnglishTrainer.Core.Infrastructure
 
 			return result;
 		}
+
+		public void AddSetWord(Guid setId, int wordId)
+		{
+			var a = _connection
+				.Query<Word>(@"insert into SetWords
+                (WordId, SetId) 
+                VALUES (@WordId, @SetId)",
+					new
+					{
+						WordId = wordId,
+						SetId = setId
+					});
+		}
 	}
 }

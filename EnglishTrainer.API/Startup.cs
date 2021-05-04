@@ -58,6 +58,7 @@ namespace EnglishTrainer.API
             services.AddScoped<IExerciseRepositories, ExerciseRepositories>();
             
             services.AddScoped<IExerciseFactory, ExerciseFactory>();
+            services.AddScoped<ISetService, SetService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IExerciseService, ExerciseService>();
             

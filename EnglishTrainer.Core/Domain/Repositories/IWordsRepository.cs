@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EnglishTrainer.Core.Domain.Entities;
 
 namespace EnglishTrainer.Core.Domain.Repositories
@@ -8,5 +9,7 @@ namespace EnglishTrainer.Core.Domain.Repositories
 		List<Word> GetAll();
 		Word GetById(int id);
 		void Create(Word word);
+		List<Word> GetSetWords(Guid setId);
+		void AddSetWord(Guid setId, int wordId);
 	}
 }

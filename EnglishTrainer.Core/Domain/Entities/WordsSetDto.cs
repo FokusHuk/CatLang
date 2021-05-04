@@ -17,6 +17,17 @@ namespace EnglishTrainer.Core.Domain.Entities
             AverageStudyTime = averageStudyTime;
             Complexity = complexity;
         }
+
+        public WordsSetDto(Guid id, Guid userId, string studyTopic)
+        {
+            Id = id;
+            UserId = userId;
+            StudyTopic = studyTopic ?? throw new ArgumentNullException(nameof(studyTopic));
+            Popularity = 0;
+            Efficiency = 0.0;
+            AverageStudyTime = 0.0;
+            Complexity = WordsSetComplexity.Undefined;
+        }
         
         public Guid Id { get; }
         public Guid UserId { get; }
