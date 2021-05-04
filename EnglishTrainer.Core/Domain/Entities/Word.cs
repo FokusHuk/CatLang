@@ -4,11 +4,14 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class Word
 	{
-		public Word(string original, string translation)
+		public Word(int id, string original, string translation)
 		{
+			Id = id;
 			Original = original ?? throw new ArgumentNullException(nameof(original));
 			Translation = translation ?? throw new ArgumentNullException(nameof(translation));
 		}
+		
+		public int Id { get; }
 
 		public string Original { get; }
 
@@ -25,7 +28,7 @@ namespace EnglishTrainer.Core.Domain.Entities
 		{
 			unchecked
 			{
-				return (Original.GetHashCode() * 397) ^ Translation.GetHashCode();
+				return (Original.GetHashCode() * 397) ^ Translation.GetHashCode() * Id.GetHashCode();
 			}
 		}
 
@@ -41,7 +44,9 @@ namespace EnglishTrainer.Core.Domain.Entities
 		
 		private bool Equals(Word other)
 		{
-			return string.Equals(Original, other.Original) && string.Equals(Translation, other.Translation);
+			return string.Equals(Original, other.Original) && 
+			       string.Equals(Translation, other.Translation) &&
+			       Id == other.Id;
 		}
 	}
 }

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Dapper;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
 
@@ -6,29 +10,52 @@ namespace EnglishTrainer.Core.Infrastructure
 {
 	public class WordsRepository : IWordsRepository
 	{
+		private readonly IDbConnection _connection;
+		public WordsRepository(IDbConnection connection)
+		{
+			_connection = connection ?? throw new ArgumentNullException(nameof(connection));
+		}
+		
 		public IEnumerable<Word> LoadAll()
 		{
 			return new List<Word>()
 			{
-				new Word("name", "имя"),
-				new Word("apple", "яблоко"),
-				new Word("home", "дом"),
-				new Word("task", "задача"),
-				new Word("word", "слово"),
-				new Word("panel", "панель"),
-				new Word("window", "окно"),
-				new Word("pen", "ручка"),
-				new Word("hi", "привет"),
-				new Word("fast", "быстрый"),
-				new Word("slow", "медленный"),
-				new Word("week", "неделя"),
-				new Word("safe", "безопасный"),
-				new Word("correct", "правильный"),
-				new Word("life", "жизнь"),
-				new Word("token", "токен"),
-				new Word("error", "ошибка"),
-				new Word("finish", "финиш")
+				
 			};
+		}
+
+		public List<Word> GetAll()
+		{
+			var result = _connection
+				.Query<Word>(@"select * from Words")
+				.ToList();
+
+			return result;
+		}
+
+		public Word GetById(int id)
+		{
+			var result = _connection
+				.Query<Word>(@"select * from Words
+                                    where Id = @Id",
+					new {Id = id})
+				.ToList();
+
+			return result.Single();
+		}
+
+		public void Create(Word word)
+		{
+			var a = _connection
+				.Query<Word>(@"insert into Words
+                (Id, Original, Translation) 
+                VALUES (@Id, @Original, @Translation)",
+					new
+					{
+						Id = word.Id,
+						Original = word.Original,
+						Translation = word.Translation
+					});
 		}
 	}
 }
