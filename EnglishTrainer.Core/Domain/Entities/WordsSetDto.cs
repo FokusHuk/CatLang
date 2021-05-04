@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EnglishTrainer.Core.Domain.Entities
 {
-    public class WordsSet
+    public class WordsSetDto
     {
-        public WordsSet(Guid id, string authorName, string studyTopic, List<Word> words, int popularity, double efficiency, double averageStudyTime, WordsSetComplexity complexity)
+        public WordsSetDto(Guid id, Guid userId, string studyTopic, int popularity, double efficiency, double averageStudyTime, WordsSetComplexity complexity)
         {
             Id = id;
-            AuthorName = authorName ?? throw new ArgumentNullException(nameof(authorName));
+            UserId = userId;
             StudyTopic = studyTopic ?? throw new ArgumentNullException(nameof(studyTopic));
-            Words = words ?? throw new ArgumentNullException(nameof(words));
             if (popularity < 0) throw new ArgumentOutOfRangeException(nameof(popularity));
             if (efficiency < 0) throw new ArgumentOutOfRangeException(nameof(efficiency));
             if (averageStudyTime < 0) throw new ArgumentOutOfRangeException(nameof(averageStudyTime));
@@ -21,9 +19,8 @@ namespace EnglishTrainer.Core.Domain.Entities
         }
         
         public Guid Id { get; }
-        public string AuthorName { get; }
+        public Guid UserId { get; }
         public string StudyTopic { get; }
-        public List<Word> Words { get; }
         public int Popularity { get; set; }
         public double Efficiency { get; set; }
         public double AverageStudyTime { get; set; }
