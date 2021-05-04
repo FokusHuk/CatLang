@@ -18,7 +18,7 @@ namespace EnglishTrainer.Core.Infrastructure
 		public User GetById(Guid userId)
 		{
 			var result = _connection
-				.Query<User>(@"select * from LangTrainer.Users
+				.Query<User>(@"select * from Users
                                     where Id = @Id",
 					new {Id = userId})
 				.ToList();
@@ -29,7 +29,7 @@ namespace EnglishTrainer.Core.Infrastructure
 		public User GetByLogin(string login)
 		{
 			var result = _connection
-				.Query<User>(@"select * from LangTrainer.Users
+				.Query<User>(@"select * from Users
                                     where Login = @Login",
 					new {Login = login})
 				.ToList();
@@ -40,7 +40,7 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void Create(User user)
 		{
 			var a = _connection
-				.Query<User>(@"insert into LangTrainer.Users
+				.Query<User>(@"insert into Users
                 (Id, Username, Login, PasswordHash) 
                 VALUES (@Id, @Username, @Login, @PasswordHash)",
 					new

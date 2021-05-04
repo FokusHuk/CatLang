@@ -54,8 +54,14 @@ namespace EnglishTrainer.API
             
             RegisterDapperRepository(services);
             services.AddSingleton(settings);
+            
+            services.AddSingleton<IWordsRepository, WordsRepository>();
+            services.AddSingleton<IExerciseRepositories, ExerciseRepositories>();
+            
             services.AddSingleton<IExerciseFactory, ExerciseFactory>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<IExerciseService, ExerciseService>();
+            
             services.AddSingleton<IJwtIssuer, JwtIssuer>();
             services.AddControllers();
         }
