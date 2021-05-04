@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
@@ -13,7 +14,7 @@ namespace EnglishTrainer.Core.Application
 			_userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
 
-		public void CreateUser(string username, string login, string password)
+		public Guid CreateUser(string username, string login, string password)
 		{
 			var passwordHash = _hashingPassword.HashPassword(password);
 			var userId = Guid.NewGuid();
@@ -21,13 +22,18 @@ namespace EnglishTrainer.Core.Application
 			var user = new User(userId, username, login, passwordHash);
 			
 			_userRepository.Create(user);
+
+			return userId;
 		}
 
-		public bool LoginUser(string login, string password)
+		public User LoginUser(string login, string password)
 		{
 			var user = _userRepository.GetByLogin(login);
 
-			return _hashingPassword.Verify(password, user.PasswordHash);
+			if (!_hashingPassword.Verify(password, user.PasswordHash))
+				throw new AuthenticationException(user.Username);
+
+			return user;
 		}
 
 		private readonly IUserRepository _userRepository;
