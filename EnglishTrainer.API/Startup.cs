@@ -55,12 +55,11 @@ namespace EnglishTrainer.API
             RegisterDapperRepository(services);
             services.AddSingleton(settings);
             
-            services.AddSingleton<IWordsRepository, WordsRepository>();
-            services.AddSingleton<IExerciseRepositories, ExerciseRepositories>();
+            services.AddScoped<IExerciseRepositories, ExerciseRepositories>();
             
-            services.AddSingleton<IExerciseFactory, ExerciseFactory>();
+            services.AddScoped<IExerciseFactory, ExerciseFactory>();
             services.AddScoped<IUserService, UserService>();
-            services.AddSingleton<IExerciseService, ExerciseService>();
+            services.AddScoped<IExerciseService, ExerciseService>();
             
             services.AddSingleton<IJwtIssuer, JwtIssuer>();
             services.AddControllers();
@@ -71,6 +70,7 @@ namespace EnglishTrainer.API
             serviceCollection.AddScoped<IDbConnection>(
                 serviceProvider => new SqlConnection(GetConnectionString()));
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IWordsRepository, WordsRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

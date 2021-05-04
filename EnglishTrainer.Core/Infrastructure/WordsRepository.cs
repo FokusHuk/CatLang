@@ -40,11 +40,10 @@ namespace EnglishTrainer.Core.Infrastructure
 		{
 			var a = _connection
 				.Query<Word>(@"insert into Words
-                (Id, Original, Translation) 
-                VALUES (@Id, @Original, @Translation)",
+                (Original, Translation) 
+                VALUES (@Original, @Translation)",
 					new
 					{
-						Id = word.Id,
 						Original = word.Original,
 						Translation = word.Translation
 					});

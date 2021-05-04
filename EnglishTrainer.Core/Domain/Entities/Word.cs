@@ -4,6 +4,12 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class Word
 	{
+		public Word(string original, string translation)
+		{
+			Original = original ?? throw new ArgumentNullException(nameof(original));
+			Translation = translation ?? throw new ArgumentNullException(nameof(translation));
+		}
+		
 		public Word(int id, string original, string translation)
 		{
 			Id = id;
