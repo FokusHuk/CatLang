@@ -15,14 +15,6 @@ namespace EnglishTrainer.Core.Infrastructure
 		{
 			_connection = connection ?? throw new ArgumentNullException(nameof(connection));
 		}
-		
-		public IEnumerable<Word> LoadAll()
-		{
-			return new List<Word>()
-			{
-				
-			};
-		}
 
 		public List<Word> GetAll()
 		{

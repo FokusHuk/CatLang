@@ -5,6 +5,8 @@ namespace EnglishTrainer.Core.Domain.Repositories
 {
 	public interface IWordsRepository
 	{
-		IEnumerable<Word> LoadAll();
+		List<Word> GetAll();
+		Word GetById(int id);
+		void Create(Word word);
 	}
 }

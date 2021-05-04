@@ -19,7 +19,7 @@ namespace EnglishTrainer.Core.Domain
 		public Exercise<string, bool> CreateSprintExercise(Guid userId, Guid exerciseId)
 		{
 			var random = new Random();
-			var allWords = _wordsRepository.LoadAll().ToArray();
+			var allWords = _wordsRepository.GetAll().ToArray();
 			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
 				.Take(_settings.ExerciseTasksCount)
@@ -31,7 +31,7 @@ namespace EnglishTrainer.Core.Domain
 		public Exercise<string[], string> CreateChoiceExercise(Guid userId, Guid exerciseId)
 		{
 			var random = new Random();
-			var allWords = _wordsRepository.LoadAll().ToArray();
+			var allWords = _wordsRepository.GetAll().ToArray();
 			var exerciseTasks = allWords
 				.OrderBy(_ => random.Next())
 				.Take(_settings.ExerciseTasksCount)
