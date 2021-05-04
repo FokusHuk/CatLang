@@ -48,5 +48,18 @@ namespace EnglishTrainer.Core.Infrastructure
 						Translation = word.Translation
 					});
 		}
+
+		public List<Word> GetSetWords(Guid setId)
+		{
+			var result = _connection
+				.Query<Word>(@"select * from Words
+								Where Id in 
+								(select (WordId) from SetWords
+                                    where SetId = @SetId)",
+					new {SetId = setId})
+				.ToList();
+
+			return result;
+		}
 	}
 }
