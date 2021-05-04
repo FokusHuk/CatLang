@@ -21,7 +21,7 @@ namespace EnglishTrainer.API.Authentication
             var claims = new[]
             {
                 new Claim(JwtClaimTypes.Id, user.Id.ToString()),
-                new Claim(JwtClaimTypes.Login, user.Credentials.Login)
+                new Claim(JwtClaimTypes.Login, user.Login)
             };
             var secret = Encoding.ASCII.GetBytes(_configuration.Secret);
             var jwtToken = new JwtSecurityToken(

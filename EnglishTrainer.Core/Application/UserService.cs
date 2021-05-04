@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
+using EnglishTrainer.Core.Infrastructure;
 
 namespace EnglishTrainer.Core.Application
 {
@@ -12,25 +13,24 @@ namespace EnglishTrainer.Core.Application
 			_userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
 
-		public Guid RegisterUser(string username, string login, string password)
+		public void CreateUser(string username, string login, string password)
 		{
-			if (username == null) throw new ArgumentNullException(nameof(username));
-			if (password == null) throw new ArgumentNullException(nameof(password));
-
+			var passwordHash = _hashingPassword.HashPassword(password);
 			var userId = Guid.NewGuid();
-			var credentials = Credentials.FromLoginAndPassword(login, password);
-			var user = new User(userId, username, credentials);
-			_userRepository.Create(user);
 
-			return userId;
+			var user = new User(userId, username, login, passwordHash);
+			
+			_userRepository.Create(user);
 		}
 
-		public IEnumerable<StudiedWord> GetStudiedWords(Guid userId)
+		public bool LoginUser(string login, string password)
 		{
-			// TODO
-			return null;
+			var user = _userRepository.GetByLogin(login);
+
+			return _hashingPassword.Verify(password, user.PasswordHash);
 		}
 
 		private readonly IUserRepository _userRepository;
+		private readonly IHashingPassword _hashingPassword = new ShaHashing();
 	}
 }

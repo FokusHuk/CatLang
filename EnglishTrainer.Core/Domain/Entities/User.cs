@@ -4,15 +4,17 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class User
 	{
-		public User(Guid id, string username, Credentials credentials)
+		public User(Guid id, string username, string login, string passwordHash)
 		{
 			Id = id;
 			Username = username;
-			Credentials = credentials ?? throw new ArgumentNullException(nameof(credentials));
+			Login = login;
+			PasswordHash = passwordHash;
 		}
 
 		public Guid Id { get; }
 		public string Username { get; set; }
-		public Credentials Credentials { get; }
+		public string Login { get; }
+		public string PasswordHash { get; }
 	}
 }

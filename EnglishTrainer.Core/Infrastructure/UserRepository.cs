@@ -47,8 +47,8 @@ namespace EnglishTrainer.Core.Infrastructure
 					{
 						Id = user.Id,
 						Username = user.Username,
-						Login = user.Credentials.Login,
-						PasswordHash = user.Credentials.PasswordHash
+						Login = user.Login,
+						PasswordHash = user.PasswordHash
 					});
 		}
 	}
