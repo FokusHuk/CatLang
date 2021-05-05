@@ -21,7 +21,12 @@ namespace EnglishTrainer.API.Controllers
         {
             var sets = _setService.GetAllSets();
 
-            return Ok(sets);
+            var response = new
+            {
+                Sets = sets
+            };
+
+            return Ok(response);
         }
         
         [HttpGet]

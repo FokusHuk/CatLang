@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,29 @@ namespace EnglishTrainer.API.Controllers
         public WordsController(IWordsRepository wordsRepository)
         {
             _wordsRepository = wordsRepository ?? throw new ArgumentNullException(nameof(wordsRepository));
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public IActionResult GetAllWords()
+        {
+            var words = _wordsRepository.GetAll();
+
+            var response = new
+            {
+                Words = words
+            };
+
+            return Ok(response);
+        }
+        
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetWordById([FromRoute] int id)
+        {
+            var word = _wordsRepository.GetById(id);
+
+            return Ok(word);
         }
         
         [HttpPost]
@@ -34,6 +58,29 @@ namespace EnglishTrainer.API.Controllers
                     _wordsRepository.Create(word);
                 }
             }
+
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("inSet/{id}")]
+        public IActionResult GetSetWords([FromRoute] Guid id)
+        {
+            var setWords = _wordsRepository.GetSetWords(id);
+
+            var response = new
+            {
+                SetWords = setWords
+            };
+
+            return Ok(response);
+        }
+        
+        [HttpPost]
+        [Route("inSet")]
+        public IActionResult AddSetWord([FromBody] AddSetWordRequest request)
+        {
+            _wordsRepository.AddSetWord(request.SetId, request.WordId);
 
             return Ok();
         }
