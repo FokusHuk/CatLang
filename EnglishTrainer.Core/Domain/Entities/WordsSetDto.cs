@@ -4,7 +4,7 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
     public class WordsSetDto
     {
-        public WordsSetDto(Guid id, Guid userId, string studyTopic, int popularity, double efficiency, double averageStudyTime, WordsSetComplexity complexity)
+        public WordsSetDto(Guid id, Guid userId, double averageStudyTime, string studyTopic, int popularity, double efficiency, WordsSetComplexity complexity)
         {
             Id = id;
             UserId = userId;

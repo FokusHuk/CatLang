@@ -72,6 +72,7 @@ namespace EnglishTrainer.API
                 serviceProvider => new SqlConnection(GetConnectionString()));
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IWordsRepository, WordsRepository>();
+            serviceCollection.AddScoped<ISetRepository, SetRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

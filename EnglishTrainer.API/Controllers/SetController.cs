@@ -16,7 +16,6 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("all")]
         public IActionResult GetAllSets()
         {
             var sets = _setService.GetAllSets();

@@ -30,7 +30,7 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpPost]
-        [Route("user")]
+        [Route("registration")]
         public IActionResult CreateUser([FromBody]SignUpRequest request)
         {
             var userId = _userService.CreateUser(request.Username, request.Login, request.Password);

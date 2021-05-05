@@ -5,6 +5,11 @@ namespace EnglishTrainer.API.Models
 {
     public class CreateSetRequest
     {
+        public CreateSetRequest()
+        {
+            
+        }
+        
         public CreateSetRequest(Guid userId, string studyTopic, List<int> setWordsIds)
         {
             UserId = userId;
