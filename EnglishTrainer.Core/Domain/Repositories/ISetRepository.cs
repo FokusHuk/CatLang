@@ -7,7 +7,11 @@ namespace EnglishTrainer.Core.Domain.Repositories
     public interface ISetRepository
     {
         List<WordsSetDto> GetAll();
-        WordsSetDto GetById(Guid id);
+        WordsSetDto GetById(Guid setId);
         void Create(WordsSetDto setDto);
+        List<StudiedSetDto> GetStudiedSetsBySetId(Guid setId);
+        List<StudiedSetDto> GetStudiedSetsByUserId(Guid userId);
+        List<StudiedSetDto> GetStudiedSet(Guid userId, Guid setId);
+        void AddStudiedSet(StudiedSetDto studiedSetDto);
     }
 }
