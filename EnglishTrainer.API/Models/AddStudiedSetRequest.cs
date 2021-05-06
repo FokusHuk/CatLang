@@ -4,6 +4,11 @@ namespace EnglishTrainer.API.Models
 {
     public class AddStudiedSetRequest
     {
+        public AddStudiedSetRequest()
+        {
+            
+        }
+        
         public AddStudiedSetRequest(Guid userId, Guid setId)
         {
             UserId = userId;
