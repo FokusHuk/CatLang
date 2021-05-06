@@ -87,7 +87,7 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("studied/{userId}")]
+        [Route("studied/{userId}")] 
         public IActionResult GetStudiedWords([FromRoute] Guid userId)
         {
             var studiedWordsDtos = _wordsRepository.GetStudiedWordsByUserId(userId);
