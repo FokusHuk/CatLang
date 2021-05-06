@@ -77,7 +77,7 @@ namespace EnglishTrainer.Core.Infrastructure
             return result;
         }
         
-        public List<StudiedSetDto> GetStudiedSet(Guid userId, Guid setId)
+        public StudiedSetDto GetStudiedSet(Guid userId, Guid setId)
         {
             var result = _connection
                 .Query<StudiedSetDto>(@"select * from UserStudiedSets
@@ -89,7 +89,7 @@ namespace EnglishTrainer.Core.Infrastructure
                     })
                 .ToList();
 
-            return result;
+            return result.Single();
         }
         
         public void AddStudiedSet(StudiedSetDto studiedSetDto)

@@ -13,6 +13,15 @@ namespace EnglishTrainer.Core.Domain.Entities
             IsStudied = isStudied;
         }
         
+        public StudiedSetDto(Guid setId, Guid userId)
+        {
+            Id = 0;
+            SetId = setId;
+            UserId = userId;
+            AttemptsCount = 1;
+            IsStudied = false;
+        }
+        
         public int Id { get; }
         public Guid SetId { get; }
         public Guid UserId { get; }
