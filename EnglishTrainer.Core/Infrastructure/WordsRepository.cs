@@ -74,5 +74,34 @@ namespace EnglishTrainer.Core.Infrastructure
 						SetId = setId
 					});
 		}
+		
+		public List<StudiedWordDto> GetStudiedWordsByUserId(Guid userId)
+		{
+			var result = _connection
+				.Query<StudiedWordDto>(@"select * from StudiedWords
+								Where UserId = @UserId",
+					new {UserId = userId})
+				.ToList();
+
+			return result;
+		}
+		
+		public void AddStudiedWord(StudiedWordDto studiedWordDto)
+		{
+			var a = _connection
+				.Query<Word>(@"insert into StudiedWords
+                (UserId, WordId, CorrectAnswers, IncorrectAnswers, LastAppearanceDate, Status, RiskFactor) 
+                VALUES (@UserId, @WordId, @CorrectAnswers, @IncorrectAnswers, @LastAppearanceDate, @Status, @RiskFactor)",
+					new
+					{
+						UserId = studiedWordDto.UserId,
+						WordId = studiedWordDto.WordId,
+						CorrectAnswers = studiedWordDto.CorrectAnswers,
+						IncorrectAnswers = studiedWordDto.IncorrectAnswers,
+						LastAppearanceDate = studiedWordDto.LastAppearanceDate,
+						Status = studiedWordDto.Status,
+						RiskFactor = studiedWordDto.RiskFactor
+					});
+		}
 	}
 }

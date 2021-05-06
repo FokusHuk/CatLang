@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Domain.Entities;
@@ -63,10 +64,10 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("inSet/{id}")]
-        public IActionResult GetSetWords([FromRoute] Guid id)
+        [Route("inSet/{setId}")]
+        public IActionResult GetSetWords([FromRoute] Guid setId)
         {
-            var setWords = _wordsRepository.GetSetWords(id);
+            var setWords = _wordsRepository.GetSetWords(setId);
 
             var response = new
             {
@@ -81,6 +82,46 @@ namespace EnglishTrainer.API.Controllers
         public IActionResult AddSetWord([FromBody] AddSetWordRequest request)
         {
             _wordsRepository.AddSetWord(request.SetId, request.WordId);
+
+            return Ok();
+        }
+        
+        [HttpGet]
+        [Route("studied/{userId}")]
+        public IActionResult GetStudiedWords([FromRoute] Guid userId)
+        {
+            var studiedWordsDtos = _wordsRepository.GetStudiedWordsByUserId(userId);
+            var studiedWords = studiedWordsDtos
+                .Select(swd => new StudiedWord(
+                    swd.UserId,
+                    _wordsRepository.GetById(swd.WordId),
+                    swd.RiskFactor,
+                    swd.CorrectAnswers,
+                    swd.IncorrectAnswers,
+                    swd.LastAppearanceDate,
+                    swd.Status))
+                .ToList();
+
+            var response = new
+            {
+                StudiedWords = studiedWords
+            };
+
+            return Ok(response);
+        }
+        
+        [HttpPost]
+        [Route("studied")]
+        public IActionResult AddStudiedWord([FromBody] AddStudiedWordRequest request)
+        {
+            var studiedWordDto = new StudiedWordDto(
+                request.UserId,
+                request.WordId,
+                request.CorrectAnswers,
+                request.IncorrectAnswers,
+                request.LastAppearanceDate);
+            
+            _wordsRepository.AddStudiedWord(studiedWordDto);
 
             return Ok();
         }
