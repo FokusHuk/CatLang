@@ -97,6 +97,7 @@ namespace EnglishTrainer.Core.Domain.Exercises
 			var correctWordPosition = random.Next(4);
 			var translations = new string[4];
 			var taskWord = format == ExerciseFormat.EnRu ? word : word.SwapOriginalAndTranslation();
+			var usedAnswerWords = new List<int>();
 
 			for (int i = 0; i < 4; i++)
 			{
@@ -106,19 +107,19 @@ namespace EnglishTrainer.Core.Domain.Exercises
 				}
 				else
 				{
-					var alternativeWord = setWords
-						.Where(sw => sw.Id != word.Id)
-						.ToArray()
-						[random.Next(setWords.Count - 1)];
+					var alternativeWords = setWords
+						.Where(sw => sw.Id != word.Id && !usedAnswerWords.Contains(sw.Id))
+						.ToArray();
+					
+					var alternativeWord = alternativeWords[random.Next(alternativeWords.Length - 1)];
 
 					translations[i] = format == ExerciseFormat.EnRu
 						? alternativeWord.Translation
 						: alternativeWord.Original;
+
+					usedAnswerWords.Add(alternativeWord.Id);
 				}
 			}
-
-			if (format == ExerciseFormat.RuEn)
-				word = word.SwapOriginalAndTranslation();
 
 			return new ChoiceExerciseTask(
 				word.Id,
