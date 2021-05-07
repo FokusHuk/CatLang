@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Exercises;
 
 namespace EnglishTrainer.Core.Domain.Repositories
 {

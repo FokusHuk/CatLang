@@ -1,8 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using EnglishTrainer.Core.Domain;
 
-namespace EnglishTrainer.Core.Infrastructure
+namespace EnglishTrainer.Core.Domain.Features
 {
     public class ShaHashing: IHashingPassword
     {

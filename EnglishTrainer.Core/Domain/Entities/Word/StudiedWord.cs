@@ -4,7 +4,7 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
 	public class StudiedWord
 	{
-		public StudiedWord(Guid userId, Word word, double riskFactor, int correctAnswers, int incorrectAnswers, DateTime lastAppearanceDate, StudyStatus status)
+		public StudiedWord(Guid userId, Word word, double riskFactor, int correctAnswers, int incorrectAnswers, DateTime lastAppearanceDate, WordStudyStatus status)
 		{
 			UserId = userId;
 			Word = word ?? throw new ArgumentNullException(nameof(word));
@@ -24,6 +24,6 @@ namespace EnglishTrainer.Core.Domain.Entities
 		public int CorrectAnswers { get; set; }
 		public int IncorrectAnswers { get; set; }
 		public DateTime LastAppearanceDate { get; set; }
-		public StudyStatus Status { get; set; }
+		public WordStudyStatus Status { get; set; }
 	}
 }

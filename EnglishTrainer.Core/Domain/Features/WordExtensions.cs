@@ -1,4 +1,6 @@
-﻿namespace EnglishTrainer.Core.Domain.Entities
+﻿using EnglishTrainer.Core.Domain.Entities;
+
+namespace EnglishTrainer.Core.Domain.Features
 {
     public static class WordExtensions
     {

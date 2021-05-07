@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Security.Authentication;
-using EnglishTrainer.Core.Domain;
 using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Features;
 using EnglishTrainer.Core.Domain.Repositories;
-using EnglishTrainer.Core.Infrastructure;
 
 namespace EnglishTrainer.Core.Application
 {

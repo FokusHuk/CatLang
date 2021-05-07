@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Dapper;
 using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure

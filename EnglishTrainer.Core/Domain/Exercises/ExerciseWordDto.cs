@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnglishTrainer.Core.Domain.Entities
+namespace EnglishTrainer.Core.Domain.Exercises
 {
     public class ExerciseWordDto
     {

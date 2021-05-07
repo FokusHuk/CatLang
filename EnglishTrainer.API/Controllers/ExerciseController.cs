@@ -1,5 +1,4 @@
-﻿using System;
-using EnglishTrainer.API.Filters;
+﻿using EnglishTrainer.API.Filters;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
 using Microsoft.AspNetCore.Mvc;

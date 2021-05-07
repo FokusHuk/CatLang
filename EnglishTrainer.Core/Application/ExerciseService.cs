@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using EnglishTrainer.Core.Domain;
-using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Repositories;
 

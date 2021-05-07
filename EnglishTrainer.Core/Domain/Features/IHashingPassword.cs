@@ -1,4 +1,4 @@
-﻿namespace EnglishTrainer.Core.Domain
+﻿namespace EnglishTrainer.Core.Domain.Features
 {
     public interface IHashingPassword
     {

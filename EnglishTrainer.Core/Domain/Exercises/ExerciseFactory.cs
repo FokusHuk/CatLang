@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnglishTrainer.Core.Domain.Entities;
+using EnglishTrainer.Core.Domain.Features;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Domain.Exercises

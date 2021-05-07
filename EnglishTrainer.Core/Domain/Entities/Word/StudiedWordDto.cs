@@ -11,7 +11,7 @@ namespace EnglishTrainer.Core.Domain.Entities
             int correctAnswers,
             int incorrectAnswers,
             DateTime lastAppearanceDate,
-            StudyStatus status,
+            WordStudyStatus status,
             double riskFactor)
         {
             Id = id;
@@ -37,7 +37,7 @@ namespace EnglishTrainer.Core.Domain.Entities
             CorrectAnswers = correctAnswers;
             IncorrectAnswers = incorrectAnswers;
             LastAppearanceDate = lastAppearanceDate;
-            Status = StudyStatus.New;
+            Status = WordStudyStatus.New;
             RiskFactor = 50.0;
         }
 
@@ -47,7 +47,7 @@ namespace EnglishTrainer.Core.Domain.Entities
         public int CorrectAnswers { get; set; }
         public int IncorrectAnswers { get; set; }
         public DateTime LastAppearanceDate { get; set; }
-        public StudyStatus Status { get; set; }
+        public WordStudyStatus Status { get; set; }
         public double RiskFactor { get; set; }
     }
 }

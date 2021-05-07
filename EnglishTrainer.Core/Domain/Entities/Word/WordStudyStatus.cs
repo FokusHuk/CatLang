@@ -1,6 +1,6 @@
 ﻿namespace EnglishTrainer.Core.Domain.Entities
 {
-    public enum StudyStatus
+    public enum WordStudyStatus
     {
         New,
         NeedPractice,
