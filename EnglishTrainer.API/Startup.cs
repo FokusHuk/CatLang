@@ -5,6 +5,7 @@ using EnglishTrainer.API.Authentication;
 using EnglishTrainer.Core;
 using EnglishTrainer.Core.Application;
 using EnglishTrainer.Core.Domain;
+using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Repositories;
 using EnglishTrainer.Core.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

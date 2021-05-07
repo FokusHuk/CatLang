@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnglishTrainer.Core.Domain.Entities;
-using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Repositories;
 
-namespace EnglishTrainer.Core.Domain
+namespace EnglishTrainer.Core.Domain.Exercises
 {
 	public class ExerciseFactory : IExerciseFactory
 	{
@@ -22,41 +21,60 @@ namespace EnglishTrainer.Core.Domain
 			var setWords = _wordsRepository.GetSetWords(setId);
 
 			var exerciseId = Guid.NewGuid();
-			var exerciseTasks = setWords
+
+			var correctTasksCount = (int) (Math.Round(0.35 * setWords.Count));
+			var mixedSetWords = setWords.OrderBy(_ => random.Next()).ToList();
+			var wrongSetWords = GetIncorrectSetWords(mixedSetWords.Skip(correctTasksCount).ToList(), format);
+			var exerciseWords = mixedSetWords.Take(correctTasksCount).ToList();
+			exerciseWords.AddRange(wrongSetWords);
+
+			var exerciseTasks = exerciseWords
 				.OrderBy(_ => random.Next())
-				.Select(word => GetConformityExerciseTask(format, word, setWords))
+				.Select(word => GetConformityExerciseTask(format, word))
 				.ToList();
 
 			return new ConformityExercise(exerciseId, setId, exerciseTasks);
 		}
-		
-		private ConformityExerciseTask GetConformityExerciseTask(ExerciseFormat format, Word word, List<Word> setWords)
+
+		private List<Word> GetIncorrectSetWords(List<Word> words, ExerciseFormat format)
 		{
 			var random = new Random();
-			var shouldReplaceTranslation = random.Next() % 2 == 0;
-			var taskWord = format == ExerciseFormat.EnRu ? word : word.SwapOriginalAndTranslation();
-
-			if (!shouldReplaceTranslation)
+			
+			if (format == ExerciseFormat.EnRu)
 			{
-				return new ConformityExerciseTask(
-					word.Id,
-					taskWord.Original,
-					taskWord.Translation);
+				var translations = words
+					.Select(w => w.Translation)
+					.OrderBy(_ => random.Next())
+					.ToList();
+
+				for (int i = 0; i < words.Count; i++)
+				{
+					words[i].Translation = translations[i];
+				}
+
+				return words;
 			}
+			else
+			{
+				var originals = words
+					.Select(w => w.Original)
+					.OrderBy(_ => random.Next())
+					.ToList();
 
-			var alternativeWord = setWords
-				.Where(sw => sw.Id != word.Id)
-				.ToArray()
-				[random.Next(setWords.Count - 1)];
+				for (int i = 0; i < words.Count; i++)
+				{
+					words[i].Original = originals[i];
+				}
 
-			var answerWord = format == ExerciseFormat.EnRu
-				? alternativeWord.Translation
-				: alternativeWord.Original;
-
-			return new ConformityExerciseTask(
-				word.Id,
-				taskWord.Original,
-				answerWord);
+				return words;
+			}
+		}
+		
+		private ConformityExerciseTask GetConformityExerciseTask(ExerciseFormat format, Word word)
+		{
+			return format == ExerciseFormat.EnRu
+				? new ConformityExerciseTask(word.Id, word.Original, word.Translation)
+				: new ConformityExerciseTask(word.Id, word.Translation, word.Original);
 		}
 		
 		public ChoiceExercise GetChoiceExercise(ExerciseFormat format, Guid setId)

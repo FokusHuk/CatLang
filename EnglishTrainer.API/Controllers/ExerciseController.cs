@@ -36,10 +36,26 @@ namespace EnglishTrainer.API.Controllers
         }
 
         [HttpPost]
-        [Route("commit")]
-        public IActionResult CommitAnswer([FromBody] CommitExerciseAnswerRequest request)
+        [Route("commit/conformity")]
+        public IActionResult CommitConformityAnswer([FromBody] CommitConformityAnswerRequest request)
         {
-            _exerciseService.CommitExerciseAnswer(
+            _exerciseService.CommitConformityAnswer(
+                request.ExerciseFormat,
+                request.ExerciseId,
+                request.SetId,
+                request.WordId,
+                request.TaskAnswer,
+                request.UserChoice);
+
+            return Ok();
+        }
+        
+        [HttpPost]
+        [Route("commit/choice")]
+        public IActionResult CommitChoiceAnswer([FromBody] CommitChoiceAnswerRequest request)
+        {
+            _exerciseService.CommitChoiceAnswer(
+                request.ExerciseFormat,
                 request.ExerciseId,
                 request.SetId,
                 request.WordId,
@@ -48,11 +64,11 @@ namespace EnglishTrainer.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("finish/{exerciseId}")]
-        public IActionResult FinishSprintExercise([FromRoute] Guid exerciseId)
+        [HttpPost]
+        [Route("finish")]
+        public IActionResult FinishExercise([FromBody] FinishExerciseRequest request)
         {
-            var exerciseResult = _exerciseService.FinishExercise(exerciseId);
+            var exerciseResult = _exerciseService.FinishExercise(request.ExerciseId, request.ExerciseFormat);
             
             return Ok(exerciseResult);
         }

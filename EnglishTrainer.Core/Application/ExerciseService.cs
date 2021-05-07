@@ -33,26 +33,58 @@ namespace EnglishTrainer.Core.Application
 			return exercise;
 		}
 
-		public void CommitExerciseAnswer(Guid exerciseId, Guid setId, int wordId, string chosenAnswer)
+		public void CommitConformityAnswer(
+			ExerciseFormat format, 
+			Guid exerciseId, 
+			Guid setId, 
+			int wordId, 
+			string taskAnswer, 
+			bool userChoice)
 		{
 			var date = DateTime.Now;
 			var word = _wordsRepository.GetById(wordId);
-			var isCorrect = word.Translation == chosenAnswer;
+			var isCorrect = format == ExerciseFormat.EnRu
+				? word.Translation == taskAnswer
+				: word.Original == taskAnswer;
+			isCorrect = isCorrect == userChoice;
+			
+			var exerciseWordDto = new ExerciseWordDto(0, exerciseId, setId, wordId, taskAnswer, date, isCorrect);
+			
+			_exerciseWordsRepository.AddExerciseWord(exerciseWordDto);
+		}
+		
+		public void CommitChoiceAnswer(
+			ExerciseFormat format, 
+			Guid exerciseId, 
+			Guid setId, 
+			int wordId, 
+			string chosenAnswer)
+		{
+			var date = DateTime.Now;
+			var word = _wordsRepository.GetById(wordId);
+			var isCorrect = format == ExerciseFormat.EnRu
+				? word.Translation == chosenAnswer
+				: word.Original == chosenAnswer;
 
 			var exerciseWordDto = new ExerciseWordDto(0, exerciseId, setId, wordId, chosenAnswer, date, isCorrect);
 			
 			_exerciseWordsRepository.AddExerciseWord(exerciseWordDto);
 		}
 
-		public ExerciseResult FinishExercise(Guid exerciseId)
+		public ExerciseResult FinishExercise(Guid exerciseId, ExerciseFormat format)
 		{
 			var exerciseWords = _exerciseWordsRepository.GetExerciseWordsByExerciseId(exerciseId);
 
 			var exerciseResultWords = exerciseWords
 				.Where(w => !w.IsCorrect)
 				.Select(w => new ExerciseResultWord(
+					format == ExerciseFormat.EnRu
+						? _wordsRepository.GetById(w.WordId).Original
+						: _wordsRepository.GetById(w.WordId).Translation,
 					w.Answer,
-					_wordsRepository.GetById(w.WordId).Translation))
+					format == ExerciseFormat.EnRu
+						? _wordsRepository.GetById(w.WordId).Translation
+						: _wordsRepository.GetById(w.WordId).Original))
 				.ToList();
 
 			var exerciseResult = new ExerciseResult(

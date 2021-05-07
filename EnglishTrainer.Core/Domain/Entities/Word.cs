@@ -19,9 +19,9 @@ namespace EnglishTrainer.Core.Domain.Entities
 		
 		public int Id { get; }
 
-		public string Original { get; }
+		public string Original { get; set; }
 
-		public string Translation { get; }
+		public string Translation { get; set; }
 
 		public override bool Equals(object obj)
 		{

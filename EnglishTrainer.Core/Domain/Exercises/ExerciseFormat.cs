@@ -2,7 +2,7 @@
 {
     public enum ExerciseFormat
     {
-        RuEn,
-        EnRu
+        EnRu,
+        RuEn
     }
 }
