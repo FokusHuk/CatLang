@@ -1,8 +1,8 @@
 ﻿namespace EnglishTrainer.Core.Domain.Exercises
 {
-    public enum ExerciseType
+    public enum ExerciseFormat
     {
-        Sprint,
-        Choice
+        RuEn,
+        EnRu
     }
 }

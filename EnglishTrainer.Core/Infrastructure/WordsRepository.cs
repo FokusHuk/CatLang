@@ -25,12 +25,12 @@ namespace EnglishTrainer.Core.Infrastructure
 			return result;
 		}
 
-		public Word GetById(int id)
+		public Word GetById(int wordId)
 		{
 			var result = _connection
 				.Query<Word>(@"select * from Words
                                     where Id = @Id",
-					new {Id = id})
+					new {Id = wordId})
 				.ToList();
 
 			return result.Single();

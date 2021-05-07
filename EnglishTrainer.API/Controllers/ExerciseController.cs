@@ -18,59 +18,43 @@ namespace EnglishTrainer.API.Controllers
         }
 
         [HttpPost]
-        [Route("sprint/start")]
-        public IActionResult StartSprintExercise()
+        [Route("create/conformity")]
+        public IActionResult CreateConformityExercise([FromBody] CreateExerciseRequest request)
         {
-            var status = _exerciseService.StartSprintExercise(Guid.NewGuid());
-            return Ok(status);
-        }
-
-        [HttpPost]
-        [Route("sprint/commit")]
-        public IActionResult CommitSprintAnswer([FromBody] CommitSprintAnswerRequest request)
-        {
-            var status = _exerciseService.CommitSprintExerciseAnswer(
-                Guid.NewGuid(),
-                request.ExerciseId,
-                request.Word,
-                request.Answer);
-            return Ok(status);
-        }
-
-        [HttpGet]
-        [Route("sprint/finish/{exerciseId}")]
-        public IActionResult FinishSprintExercise([FromRoute] Guid exerciseId)
-        {
-            var result = _exerciseService.FinishSprintExercise(exerciseId);
-            return Ok(result);
+            var conformityExercise = _exerciseService.CreateConformityExercise(request.ExerciseFormat, request.SetId);
+            
+            return Ok(conformityExercise);
         }
         
         [HttpPost]
-        [Route("choice/start")]
-        public IActionResult StartChoiceExercise()
+        [Route("create/choice")]
+        public IActionResult CreateChoiceExercise([FromBody] CreateExerciseRequest request)
         {
-            var status = _exerciseService.StartChoiceExercise(Guid.NewGuid());
-            return Ok(status);
+            var choiceExercise = _exerciseService.CreateChoiceExercise(request.ExerciseFormat, request.SetId);
+            
+            return Ok(choiceExercise);
         }
 
         [HttpPost]
-        [Route("choice/commit")]
-        public IActionResult CommitChoiceAnswer([FromBody] CommitChoiceAnswerRequest request)
+        [Route("commit")]
+        public IActionResult CommitAnswer([FromBody] CommitExerciseAnswerRequest request)
         {
-            var status = _exerciseService.CommitChoiceExerciseAnswer(
-                Guid.NewGuid(),
+            _exerciseService.CommitExerciseAnswer(
                 request.ExerciseId,
-                request.Word,
-                request.Answer);
-            return Ok(status);
+                request.SetId,
+                request.WordId,
+                request.ChosenAnswer);
+
+            return Ok();
         }
 
         [HttpGet]
-        [Route("choice/finish/{exerciseId}")]
-        public IActionResult FinishChoiceExercise([FromRoute] Guid exerciseId)
+        [Route("finish/{exerciseId}")]
+        public IActionResult FinishSprintExercise([FromRoute] Guid exerciseId)
         {
-            var result = _exerciseService.FinishChoiceExercise(exerciseId);
-            return Ok(result);
+            var exerciseResult = _exerciseService.FinishExercise(exerciseId);
+            
+            return Ok(exerciseResult);
         }
     }
 }

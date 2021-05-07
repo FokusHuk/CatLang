@@ -100,7 +100,7 @@ namespace EnglishTrainer.API.Controllers
         [Route("studied")]
         public IActionResult AddStudiedSet([FromBody] AddStudiedSetRequest request)
         {
-            _setRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId));
+            _setRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId, request.CorrectAnswers));
 
             return Ok();
         }

@@ -96,14 +96,16 @@ namespace EnglishTrainer.Core.Infrastructure
         {
             var a = _connection
                 .Query<Word>(@"insert into UserStudiedSets
-                (SetId, UserId, AttemptsCount, IsStudied) 
-                VALUES (@SetId, @UserId, @AttemptsCount, @IsStudied)",
+                (SetId, UserId, AttemptsCount, IsStudied, CorrectAnswers, AnswersCount) 
+                VALUES (@SetId, @UserId, @AttemptsCount, @IsStudied, @CorrectAnswers, @AnswersCount)",
                     new
                     {
                         SetId = studiedSetDto.SetId,
                         UserId = studiedSetDto.UserId,
                         AttemptsCount = studiedSetDto.AttemptsCount,
-                        IsStudied = studiedSetDto.IsStudied
+                        IsStudied = studiedSetDto.IsStudied,
+                        CorrectAnswers = studiedSetDto.CorrectAnswers,
+                        AnswersCount = studiedSetDto.AnswersCount
                     });
         }
     }

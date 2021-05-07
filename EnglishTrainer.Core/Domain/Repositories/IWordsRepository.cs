@@ -7,7 +7,7 @@ namespace EnglishTrainer.Core.Domain.Repositories
 	public interface IWordsRepository
 	{
 		List<Word> GetAll();
-		Word GetById(int id);
+		Word GetById(int wordId);
 		void Create(Word word);
 		List<Word> GetSetWords(Guid setId);
 		void AddSetWord(Guid setId, int wordId);

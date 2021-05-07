@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using EnglishTrainer.Core.Domain;
+using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Exercises;
-using EnglishTrainer.Core.Domain.Exercises.DTOs;
 using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Application
@@ -9,72 +10,65 @@ namespace EnglishTrainer.Core.Application
 	public class ExerciseService : IExerciseService
 	{
 		public ExerciseService(
-			IExerciseFactory factory,
-			IExerciseRepositories exerciseRepositories)
+			IExerciseFactory exerciseFactory,
+			IWordsRepository wordsRepository,
+			IExerciseWordsRepository exerciseWordsRepository)
 		{
-			_factory = factory ?? throw new ArgumentNullException(nameof(factory));
-			_exerciseRepositories = exerciseRepositories ?? throw new ArgumentNullException(nameof(exerciseRepositories));
+			_exerciseFactory = exerciseFactory ?? throw new ArgumentNullException(nameof(exerciseFactory));
+			_wordsRepository = wordsRepository;
+			_exerciseWordsRepository = exerciseWordsRepository;
 		}
 
-		public ExerciseStatusDto<string, bool> StartSprintExercise(Guid userId)
+		public ConformityExercise CreateConformityExercise(ExerciseFormat format, Guid setId)
 		{
-			var exerciseId = Guid.NewGuid();
-			var exercise = _factory.CreateSprintExercise(userId, exerciseId);
-			_exerciseRepositories.ForSprint().Save(exercise);
-			return ExerciseStatusDto<string, bool>.Create(exercise.Status());
-		}
+			var exercise = _exerciseFactory.GetConformityExercise(format, setId);
 
-		public ExerciseStatusDto<string, bool> CommitSprintExerciseAnswer(
-			Guid userId, 
-			Guid exerciseId, 
-			string original, 
-			bool answer)
-		{
-			var exercise = _exerciseRepositories.ForSprint().Get(exerciseId);
-			exercise.CommitAnswer(original, answer);
-			_exerciseRepositories.ForSprint().Save(exercise);
-			return ExerciseStatusDto<string, bool>.Create(exercise.Status());
+			return exercise;
 		}
-
-		public ExerciseResult<string, bool> FinishSprintExercise(Guid exerciseId)
-		{
-			var exercise = _exerciseRepositories.ForSprint().Get(exerciseId);
-			var result = exercise.Result();
-			_exerciseRepositories.ForSprint().Delete(exerciseId);
-			return result;
-		}
-
 		
-		public ExerciseStatusDto<string[], string> StartChoiceExercise(Guid userId)
+		public ChoiceExercise CreateChoiceExercise(ExerciseFormat format, Guid setId)
 		{
-			var exerciseId = Guid.NewGuid();
-			var exercise = _factory.CreateChoiceExercise(userId, exerciseId);
-			_exerciseRepositories.ForChoice().Save(exercise);
-			return ExerciseStatusDto<string[], string>.Create(exercise.Status());
+			var exercise = _exerciseFactory.GetChoiceExercise(format, setId);
+
+			return exercise;
 		}
 
-		public ExerciseStatusDto<string[], string> CommitChoiceExerciseAnswer(
-			Guid userId, 
-			Guid exerciseId, 
-			string original, 
-			string answer)
+		public void CommitExerciseAnswer(Guid exerciseId, Guid setId, int wordId, string chosenAnswer)
 		{
-			var exercise = _exerciseRepositories.ForChoice().Get(exerciseId);
-			exercise.CommitAnswer(original, answer);
-			_exerciseRepositories.ForChoice().Save(exercise);
-			return ExerciseStatusDto<string[], string>.Create(exercise.Status());
+			var date = DateTime.Now;
+			var word = _wordsRepository.GetById(wordId);
+			var isCorrect = word.Translation == chosenAnswer;
+
+			var exerciseWordDto = new ExerciseWordDto(0, exerciseId, setId, wordId, chosenAnswer, date, isCorrect);
+			
+			_exerciseWordsRepository.AddExerciseWord(exerciseWordDto);
 		}
 
-		public ExerciseResult<string[], string> FinishChoiceExercise(Guid exerciseId)
+		public ExerciseResult FinishExercise(Guid exerciseId)
 		{
-			var exercise = _exerciseRepositories.ForChoice().Get(exerciseId);
-			var result = exercise.Result();
-			_exerciseRepositories.ForChoice().Delete(exerciseId);
-			return result;
+			var exerciseWords = _exerciseWordsRepository.GetExerciseWordsByExerciseId(exerciseId);
+
+			var exerciseResultWords = exerciseWords
+				.Where(w => !w.IsCorrect)
+				.Select(w => new ExerciseResultWord(
+					w.Answer,
+					_wordsRepository.GetById(w.WordId).Translation))
+				.ToList();
+
+			var exerciseResult = new ExerciseResult(
+				exerciseWords.Count(w => w.IsCorrect),
+				exerciseWords.Count,
+				exerciseResultWords);
+			
+			// TODO: Обновление стастики пользователя (изученные слова и набор)
+			
+			_exerciseWordsRepository.DeleteExerciseWordsByExerciseId(exerciseId);
+
+			return exerciseResult;
 		}
-
-		private readonly IExerciseFactory _factory;
-
-		private readonly IExerciseRepositories _exerciseRepositories;
+		
+		private readonly IExerciseFactory _exerciseFactory;
+		private readonly IWordsRepository _wordsRepository;
+		private readonly IExerciseWordsRepository _exerciseWordsRepository;
 	}
 }
