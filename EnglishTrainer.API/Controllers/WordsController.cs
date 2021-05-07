@@ -13,10 +13,13 @@ namespace EnglishTrainer.API.Controllers
     public class WordsController: ControllerBase
     {
         private readonly IWordsRepository _wordsRepository;
+        private readonly IExerciseWordsRepository _exerciseWordsRepository;
         
-        public WordsController(IWordsRepository wordsRepository)
+        public WordsController(IWordsRepository wordsRepository, IExerciseWordsRepository exerciseWordsRepository)
         {
             _wordsRepository = wordsRepository ?? throw new ArgumentNullException(nameof(wordsRepository));
+            _exerciseWordsRepository = exerciseWordsRepository ?? 
+                                       throw new ArgumentNullException(nameof(exerciseWordsRepository));
         }
 
         [HttpGet]
@@ -124,6 +127,20 @@ namespace EnglishTrainer.API.Controllers
             _wordsRepository.AddStudiedWord(studiedWordDto);
 
             return Ok();
+        }
+        
+        [HttpGet]
+        [Route("exercise/{exerciseId}")]
+        public IActionResult GetExerciseWords([FromRoute] Guid exerciseId)
+        {
+            var exerciseWords = _exerciseWordsRepository.GetExerciseWordsByExerciseId(exerciseId);
+
+            var response = new
+            {
+                ExerciseWords = exerciseWords
+            };
+
+            return Ok(response);
         }
     }
 }
