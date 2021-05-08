@@ -9,12 +9,12 @@ namespace EnglishTrainer.Core.Application
 {
     public class StatisticsService : IStatisticsService
     {
-        private readonly ISetRepository _setRepository;
+        private readonly IStudiedSetsRepository _studiedSetsRepository;
         private readonly IWordsRepository _wordsRepository;
 
-        public StatisticsService(ISetRepository setRepository, IWordsRepository wordsRepository)
+        public StatisticsService(IStudiedSetsRepository studiedSetsRepository, IWordsRepository wordsRepository)
         {
-            _setRepository = setRepository;
+            _studiedSetsRepository = studiedSetsRepository;
             _wordsRepository = wordsRepository;
         }
         
@@ -61,11 +61,11 @@ namespace EnglishTrainer.Core.Application
             var answersCount = newStudiedWords.Count;
             var isStudied = correctAnswers == answersCount;
             
-            var studiedSet = _setRepository.GetStudiedSet(userId, setId);
+            var studiedSet = _studiedSetsRepository.GetStudiedSet(userId, setId);
 
             if (studiedSet == null)
             {
-                _setRepository.AddStudiedSet(new StudiedSetDto(
+                _studiedSetsRepository.AddStudiedSet(new StudiedSetDto(
                     0,
                     setId,
                     userId,
@@ -83,7 +83,7 @@ namespace EnglishTrainer.Core.Application
                     studiedSet.AnswersCount += answersCount;
                     studiedSet.IsStudied = isStudied;
                     
-                    _setRepository.UpdateStudiedSet(studiedSet);
+                    _studiedSetsRepository.UpdateStudiedSet(studiedSet);
                 }
             }
         }

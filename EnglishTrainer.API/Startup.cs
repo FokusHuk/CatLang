@@ -73,6 +73,7 @@ namespace EnglishTrainer.API
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IWordsRepository, WordsRepository>();
             serviceCollection.AddScoped<ISetRepository, SetRepository>();
+            serviceCollection.AddScoped<IStudiedSetsRepository, StudiedSetsRepository>();
             serviceCollection.AddScoped<IExerciseWordsRepository, ExerciseWordsRepository>();
         }
         

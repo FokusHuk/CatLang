@@ -12,11 +12,13 @@ namespace EnglishTrainer.API.Controllers
     {
         private readonly ISetService _setService;
         private readonly ISetRepository _setRepository;
+        private readonly IStudiedSetsRepository _studiedSetsRepository;
         
-        public SetController(ISetService setService, ISetRepository setRepository)
+        public SetController(ISetService setService, ISetRepository setRepository, IStudiedSetsRepository studiedSetsRepository)
         {
             _setService = setService ?? throw new ArgumentNullException(nameof(setService));
             _setRepository = setRepository ?? throw new ArgumentNullException(nameof(setRepository));
+            _studiedSetsRepository = studiedSetsRepository ?? throw new ArgumentNullException(nameof(studiedSetsRepository));
         }
         
         [HttpGet]
@@ -58,7 +60,7 @@ namespace EnglishTrainer.API.Controllers
         [Route("studied/{setId}")]
         public IActionResult GetStudiedSetsBySetId([FromRoute] Guid setId)
         {
-            var studiedSets = _setRepository.GetStudiedSetsBySetId(setId);
+            var studiedSets = _studiedSetsRepository.GetStudiedSetsBySetId(setId);
             
             var response = new
             {
@@ -72,7 +74,7 @@ namespace EnglishTrainer.API.Controllers
         [Route("studied/users/{userId}")]
         public IActionResult GetStudiedSetsByUserId([FromRoute] Guid userId)
         {
-            var studiedSets = _setRepository.GetStudiedSetsByUserId(userId);
+            var studiedSets = _studiedSetsRepository.GetStudiedSetsByUserId(userId);
             
             var response = new
             {
@@ -86,7 +88,7 @@ namespace EnglishTrainer.API.Controllers
         [Route("studied")]
         public IActionResult GetStudiedSet([FromBody] GetStudiedSetRequest request)
         {
-            var studiedSet = _setRepository.GetStudiedSet(request.UserId, request.SetId);
+            var studiedSet = _studiedSetsRepository.GetStudiedSet(request.UserId, request.SetId);
             
             var response = new
             {
@@ -100,7 +102,7 @@ namespace EnglishTrainer.API.Controllers
         [Route("studied")]
         public IActionResult AddStudiedSet([FromBody] AddStudiedSetRequest request)
         {
-            _setRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId, request.CorrectAnswers));
+            _studiedSetsRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId, request.CorrectAnswers));
 
             return Ok();
         }
