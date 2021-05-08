@@ -11,13 +11,11 @@ namespace EnglishTrainer.API.Controllers
     public class SetController: ControllerBase
     {
         private readonly ISetService _setService;
-        private readonly ISetRepository _setRepository;
         private readonly IStudiedSetsRepository _studiedSetsRepository;
         
-        public SetController(ISetService setService, ISetRepository setRepository, IStudiedSetsRepository studiedSetsRepository)
+        public SetController(ISetService setService, IStudiedSetsRepository studiedSetsRepository)
         {
             _setService = setService ?? throw new ArgumentNullException(nameof(setService));
-            _setRepository = setRepository ?? throw new ArgumentNullException(nameof(setRepository));
             _studiedSetsRepository = studiedSetsRepository ?? throw new ArgumentNullException(nameof(studiedSetsRepository));
         }
         
