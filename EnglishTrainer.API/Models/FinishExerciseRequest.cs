@@ -10,12 +10,14 @@ namespace EnglishTrainer.API.Models
             
         }
         
-        public FinishExerciseRequest(Guid exerciseId, ExerciseFormat exerciseFormat)
+        public FinishExerciseRequest(Guid userId, Guid exerciseId, ExerciseFormat exerciseFormat)
         {
+            UserId = userId;
             ExerciseId = exerciseId;
             ExerciseFormat = exerciseFormat;
         }
         
+        public Guid UserId { get; set; }        
         public Guid ExerciseId {get;set;}
         public ExerciseFormat ExerciseFormat {get;set;}
     }

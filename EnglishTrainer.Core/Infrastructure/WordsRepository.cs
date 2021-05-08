@@ -75,6 +75,21 @@ namespace EnglishTrainer.Core.Infrastructure
 					});
 		}
 		
+		public StudiedWordDto GetStudiedWord(Guid userId, int wordId)
+		{
+			var result = _connection
+				.Query<StudiedWordDto>(@"select * from StudiedWords
+								Where UserId = @UserId and WordId = @WordId",
+					new
+					{
+						UserId = userId,
+						WordId = wordId
+					})
+				.ToList();
+
+			return result.SingleOrDefault();
+		}
+		
 		public List<StudiedWordDto> GetStudiedWordsByUserId(Guid userId)
 		{
 			var result = _connection
@@ -84,6 +99,27 @@ namespace EnglishTrainer.Core.Infrastructure
 				.ToList();
 
 			return result;
+		}
+		
+		public void UpdateStudiedWord(StudiedWordDto studiedWordDto)
+		{
+			var result = _connection
+				.Query<StudiedWordDto>(@"update StudiedWords
+   								set CorrectAnswers = @CorrectAnswers,
+   								   	IncorrectAnswers = @IncorrectAnswers,
+   								   	LastAppearanceDate = @LastAppearanceDate,
+   								   	Status = @Status,
+   								   	RiskFactor = @RiskFactor
+ 								where Id = @Id",
+					new
+					{
+						Id = studiedWordDto.Id,
+						CorrectAnswers = studiedWordDto.CorrectAnswers,
+						IncorrectAnswers = studiedWordDto.IncorrectAnswers,
+						LastAppearanceDate = studiedWordDto.LastAppearanceDate,
+						Status = studiedWordDto.Status,
+						RiskFactor = studiedWordDto.RiskFactor
+					});
 		}
 		
 		public void AddStudiedWord(StudiedWordDto studiedWordDto)

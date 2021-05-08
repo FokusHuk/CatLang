@@ -89,9 +89,28 @@ namespace EnglishTrainer.Core.Infrastructure
                     })
                 .ToList();
 
-            return result.Single();
+            return result.SingleOrDefault();
         }
-        
+
+        public void UpdateStudiedSet(StudiedSetDto studiedSetDto)
+        {
+            var result = _connection
+                .Query<StudiedSetDto>(@"update UserStudiedSets
+                                    set AttemptsCount = @AttemptsCount,
+                                        IsStudied = @IsStudied,
+                                        CorrectAnswers = @CorrectAnswers,
+                                        AnswersCount = @AnswersCount
+                                    where Id = @Id",
+                    new
+                    {
+                        Id = studiedSetDto.Id,
+                        AttemptsCount = studiedSetDto.AttemptsCount,
+                        IsStudied = studiedSetDto.IsStudied,
+                        CorrectAnswers = studiedSetDto.CorrectAnswers,
+                        AnswersCount = studiedSetDto.AnswersCount
+                    });
+        }
+
         public void AddStudiedSet(StudiedSetDto studiedSetDto)
         {
             var a = _connection

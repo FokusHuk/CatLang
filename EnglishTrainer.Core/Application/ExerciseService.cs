@@ -11,11 +11,12 @@ namespace EnglishTrainer.Core.Application
 		public ExerciseService(
 			IExerciseFactory exerciseFactory,
 			IWordsRepository wordsRepository,
-			IExerciseWordsRepository exerciseWordsRepository)
+			IExerciseWordsRepository exerciseWordsRepository, IStatisticsService statisticsService)
 		{
 			_exerciseFactory = exerciseFactory ?? throw new ArgumentNullException(nameof(exerciseFactory));
 			_wordsRepository = wordsRepository;
 			_exerciseWordsRepository = exerciseWordsRepository;
+			_statisticsService = statisticsService;
 		}
 
 		public ConformityExercise CreateConformityExercise(ExerciseFormat format, Guid setId)
@@ -70,7 +71,7 @@ namespace EnglishTrainer.Core.Application
 			_exerciseWordsRepository.AddExerciseWord(exerciseWordDto);
 		}
 
-		public ExerciseResult FinishExercise(Guid exerciseId, ExerciseFormat format)
+		public ExerciseResult FinishExercise(Guid userId, Guid exerciseId, ExerciseFormat format)
 		{
 			var exerciseWords = _exerciseWordsRepository.GetExerciseWordsByExerciseId(exerciseId);
 
@@ -91,13 +92,15 @@ namespace EnglishTrainer.Core.Application
 				exerciseWords.Count,
 				exerciseResultWords);
 			
-			// TODO: Обновление стастики пользователя (изученные слова и набор)
+			_statisticsService.UpdateUserStudiedSet(userId, exerciseWords);
+			_statisticsService.UpdateUserStudiedWords(userId, exerciseWords);
 			
 			_exerciseWordsRepository.DeleteExerciseWordsByExerciseId(exerciseId);
 
 			return exerciseResult;
 		}
-		
+
+		private readonly IStatisticsService _statisticsService;
 		private readonly IExerciseFactory _exerciseFactory;
 		private readonly IWordsRepository _wordsRepository;
 		private readonly IExerciseWordsRepository _exerciseWordsRepository;

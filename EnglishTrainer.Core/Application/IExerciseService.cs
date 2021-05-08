@@ -11,6 +11,6 @@ namespace EnglishTrainer.Core.Application
 			bool answer);
 		public void CommitChoiceAnswer(ExerciseFormat format, Guid exerciseId, Guid setId, int wordId,
 			string chosenAnswer);
-		ExerciseResult FinishExercise(Guid exerciseId, ExerciseFormat format);
+		ExerciseResult FinishExercise(Guid userId, Guid exerciseId, ExerciseFormat format);
 	}
 }

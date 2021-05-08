@@ -12,6 +12,7 @@ namespace EnglishTrainer.Core.Domain.Repositories
         List<StudiedSetDto> GetStudiedSetsBySetId(Guid setId);
         List<StudiedSetDto> GetStudiedSetsByUserId(Guid userId);
         StudiedSetDto GetStudiedSet(Guid userId, Guid setId);
+        void UpdateStudiedSet(StudiedSetDto studiedSetDto);
         void AddStudiedSet(StudiedSetDto studiedSetDto);
     }
 }

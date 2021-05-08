@@ -67,7 +67,10 @@ namespace EnglishTrainer.API.Controllers
         [Route("finish")]
         public IActionResult FinishExercise([FromBody] FinishExerciseRequest request)
         {
-            var exerciseResult = _exerciseService.FinishExercise(request.ExerciseId, request.ExerciseFormat);
+            var exerciseResult = _exerciseService.FinishExercise(
+                request.UserId,
+                request.ExerciseId,
+                request.ExerciseFormat);
             
             return Ok(exerciseResult);
         }

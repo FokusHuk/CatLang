@@ -15,7 +15,7 @@ namespace EnglishTrainer.Core.Domain.Entities
             AnswersCount = answersCount;
         }
         
-        public StudiedSetDto(Guid setId, Guid userId, int correctAnswers)
+        public StudiedSetDto(Guid setId, Guid userId, int correctAnswers, bool isStudied = false)
         {
             Id = 0;
             SetId = setId;
@@ -23,7 +23,7 @@ namespace EnglishTrainer.Core.Domain.Entities
             CorrectAnswers = correctAnswers;
             AnswersCount = 1;
             AttemptsCount = 1;
-            IsStudied = false;
+            IsStudied = isStudied;
         }
         
         public int Id { get; }
