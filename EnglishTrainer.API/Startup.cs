@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
@@ -8,6 +9,8 @@ using EnglishTrainer.Core.Domain.Exercises;
 using EnglishTrainer.Core.Domain.Features;
 using EnglishTrainer.Core.Domain.Repositories;
 using EnglishTrainer.Core.Infrastructure;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -64,6 +67,13 @@ namespace EnglishTrainer.API
             
             services.AddSingleton<IJwtIssuer, JwtIssuer>();
             services.AddControllers();
+            
+            services.AddHangfire(config =>                 
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseDefaultTypeSerializer()
+                    .UseMemoryStorage());
+            services.AddHangfireServer();
         }
 
         private void RegisterDapperRepository(IServiceCollection serviceCollection)
@@ -77,7 +87,11 @@ namespace EnglishTrainer.API
             serviceCollection.AddScoped<IExerciseWordsRepository, ExerciseWordsRepository>();
         }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            IRecurringJobManager recurringJobManager,
+            IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -96,6 +110,13 @@ namespace EnglishTrainer.API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            app.UseHangfireDashboard();
+            recurringJobManager.AddOrUpdate(
+                "Statistics",
+                () => serviceProvider.GetService<IStatisticsService>().UpdateSetStatistics(),
+                "*/5 * * * *"
+            );
         }
         
         private string GetConnectionString()
