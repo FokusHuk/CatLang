@@ -115,7 +115,7 @@ namespace EnglishTrainer.API
             recurringJobManager.AddOrUpdate(
                 "Statistics",
                 () => serviceProvider.GetService<IStatisticsService>().UpdateSetStatistics(),
-                "*/5 * * * *"
+                "* * * * *"
             );
         }
         

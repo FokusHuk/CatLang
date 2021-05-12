@@ -5,7 +5,15 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
     public class WordsSet
     {
-        public WordsSet(Guid id, string authorName, string studyTopic, List<Word> words, int popularity, double efficiency, double averageStudyTime, WordsSetComplexity complexity)
+        public WordsSet(
+            Guid id, 
+            string authorName, 
+            string studyTopic, 
+            List<Word> words, 
+            int popularity, 
+            double efficiency, 
+            double averageStudyTime, 
+            double complexity)
         {
             Id = id;
             AuthorName = authorName ?? throw new ArgumentNullException(nameof(authorName));
@@ -27,6 +35,6 @@ namespace EnglishTrainer.Core.Domain.Entities
         public int Popularity { get; set; }
         public double Efficiency { get; set; }
         public double AverageStudyTime { get; set; }
-        public WordsSetComplexity Complexity { get; set; }
+        public double Complexity { get; set; }
     }
 }

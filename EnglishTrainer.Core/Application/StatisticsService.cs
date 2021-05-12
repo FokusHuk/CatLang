@@ -125,16 +125,10 @@ namespace EnglishTrainer.Core.Application
 
                 var set = _setRepository.GetById(setId);
 
-                if (complexity < 20)
-                    set.Complexity = WordsSetComplexity.Low;
-                else if (complexity < 75)
-                    set.Complexity = WordsSetComplexity.Medium;
-                else
-                    set.Complexity = WordsSetComplexity.High;
-
+                set.Complexity = complexity;
                 set.Popularity = popularity;
                 set.Efficiency = efficiency;
-                set.AverageStudyTime = (double) commonAttemptsCount / commonUsersCount;
+                set.AverageStudyTime = Math.Round((double) commonAttemptsCount / commonUsersCount, 2);
 
                 _setRepository.UpdateSet(set);
             }

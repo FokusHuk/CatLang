@@ -4,7 +4,14 @@ namespace EnglishTrainer.Core.Domain.Entities
 {
     public class WordsSetDto
     {
-        public WordsSetDto(Guid id, Guid userId, double averageStudyTime, string studyTopic, int popularity, double efficiency, WordsSetComplexity complexity)
+        public WordsSetDto(
+            Guid id, 
+            Guid userId, 
+            double averageStudyTime, 
+            string studyTopic, 
+            int popularity, 
+            double efficiency, 
+            double complexity)
         {
             Id = id;
             UserId = userId;
@@ -26,7 +33,7 @@ namespace EnglishTrainer.Core.Domain.Entities
             Popularity = 0;
             Efficiency = 0.0;
             AverageStudyTime = 0.0;
-            Complexity = WordsSetComplexity.Undefined;
+            Complexity = 0.0;
         }
         
         public Guid Id { get; }
@@ -35,6 +42,6 @@ namespace EnglishTrainer.Core.Domain.Entities
         public int Popularity { get; set; }
         public double Efficiency { get; set; }
         public double AverageStudyTime { get; set; }
-        public WordsSetComplexity Complexity { get; set; }
+        public double Complexity { get; set; }
     }
 }
