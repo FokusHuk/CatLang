@@ -83,6 +83,7 @@ namespace EnglishTrainer.API
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IWordsRepository, WordsRepository>();
             serviceCollection.AddScoped<ISetRepository, SetRepository>();
+            serviceCollection.AddScoped<IRecommendedSetsRepository, RecommendedSetsRepository>();
             serviceCollection.AddScoped<IStudiedSetsRepository, StudiedSetsRepository>();
             serviceCollection.AddScoped<IExerciseWordsRepository, ExerciseWordsRepository>();
         }
@@ -115,7 +116,7 @@ namespace EnglishTrainer.API
             recurringJobManager.AddOrUpdate(
                 "Statistics",
                 () => serviceProvider.GetService<IStatisticsService>().UpdateSetStatistics(),
-                "* * * * *"
+                "*/5 * * * *"
             );
         }
         
