@@ -9,5 +9,6 @@ namespace EnglishTrainer.Core.Domain.Repositories
         List<WordsSetDto> GetAll();
         WordsSetDto GetById(Guid setId);
         void Create(WordsSetDto setDto);
+        void UpdateSet(WordsSetDto setDto);
     }
 }

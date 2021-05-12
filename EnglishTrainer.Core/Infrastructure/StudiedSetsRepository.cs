@@ -16,6 +16,15 @@ namespace EnglishTrainer.Core.Infrastructure
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
+
+        public List<StudiedSetDto> GetStudiedSets()
+        {
+            var result = _connection
+                .Query<StudiedSetDto>(@"select * from UserStudiedSets")
+                .ToList();
+
+            return result;
+        }
         
         public List<StudiedSetDto> GetStudiedSetsBySetId(Guid setId)
         {

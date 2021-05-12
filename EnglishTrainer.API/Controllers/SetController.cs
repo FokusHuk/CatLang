@@ -83,18 +83,18 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("studied")]
-        public IActionResult GetStudiedSet([FromBody] GetStudiedSetRequest request)
-        {
-            var studiedSet = _studiedSetsRepository.GetStudiedSet(request.UserId, request.SetId);
-            
-            var response = new
-            {
-                StudiedSet = studiedSet
-            };
-
-            return Ok(response);
-        }
+                 [Route("studied")]
+                 public IActionResult GetStudiedSet([FromBody] GetStudiedSetRequest request)
+                 {
+                     var studiedSet = _studiedSetsRepository.GetStudiedSet(request.UserId, request.SetId);
+                     
+                     var response = new
+                     {
+                         StudiedSet = studiedSet
+                     };
+         
+                     return Ok(response);
+                 }
         
         [HttpPost]
         [Route("studied")]
@@ -103,6 +103,20 @@ namespace EnglishTrainer.API.Controllers
             _studiedSetsRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId, request.CorrectAnswers));
 
             return Ok();
+        }
+        
+        [HttpGet]
+        [Route("studied/all")]
+        public IActionResult GetStudiedSets()
+        {
+            var studiedSets = _studiedSetsRepository.GetStudiedSets();
+            
+            var response = new
+            {
+                StudiedSets = studiedSets
+            };
+
+            return Ok(response);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace EnglishTrainer.Core.Domain.Repositories
 {
     public interface IStudiedSetsRepository
     {
+        List<StudiedSetDto> GetStudiedSets();
         List<StudiedSetDto> GetStudiedSetsBySetId(Guid setId);
         List<StudiedSetDto> GetStudiedSetsByUserId(Guid userId);
         StudiedSetDto GetStudiedSet(Guid userId, Guid setId);

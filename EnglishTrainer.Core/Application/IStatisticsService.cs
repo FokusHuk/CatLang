@@ -8,5 +8,6 @@ namespace EnglishTrainer.Core.Application
     {
         void UpdateUserStudiedWords(Guid userId, List<ExerciseWordDto> newStudiedWords);
         void UpdateUserStudiedSet(Guid userId, List<ExerciseWordDto> newStudiedWords);
+        void UpdateSetStatistics();
     }
 }

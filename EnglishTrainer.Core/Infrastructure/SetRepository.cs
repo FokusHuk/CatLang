@@ -36,17 +36,39 @@ namespace EnglishTrainer.Core.Infrastructure
 
             return result.Single();
         }
-        
+
         public void Create(WordsSetDto setDto)
         {
-            var a = _connection
+            _connection
                 .Query<Word>(@"insert into Sets
                 (Id, UserId, AverageStudyTime, StudyTopic, Popularity, Efficiency, Complexity) 
-                VALUES (@Id, @UserId, @AverageStudyTime, @StudyTopic, @Popularity, @Efficiency, @Complexity)",
+                values (@Id, @UserId, @AverageStudyTime, @StudyTopic, @Popularity, @Efficiency, @Complexity)",
                     new
                     {
                         Id = setDto.Id,
                         UserId = setDto.UserId,
+                        AverageStudyTime = setDto.AverageStudyTime,
+                        StudyTopic = setDto.StudyTopic,
+                        Popularity = setDto.Popularity,
+                        Efficiency = setDto.Efficiency,
+                        Complexity = setDto.Complexity
+                    });
+        }
+
+        public void UpdateSet(WordsSetDto setDto)
+        {
+            _connection
+                .Query<WordsSetDto>(@"update Sets
+                            set 
+                                AverageStudyTime = @AverageStudyTime,
+                                StudyTopic = @StudyTopic,
+                                Popularity = @Popularity,
+                                Efficiency = @Efficiency,
+                                Complexity = @Complexity
+                            where Id = @Id",
+                    new
+                    {
+                        Id = setDto.Id,
                         AverageStudyTime = setDto.AverageStudyTime,
                         StudyTopic = setDto.StudyTopic,
                         Popularity = setDto.Popularity,
