@@ -64,6 +64,7 @@ namespace EnglishTrainer.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddScoped<IExerciseService, ExerciseService>();
+            services.AddScoped<IRecommendationService, RecommendationService>();
             
             services.AddSingleton<IJwtIssuer, JwtIssuer>();
             services.AddControllers();
@@ -117,6 +118,11 @@ namespace EnglishTrainer.API
                 "Statistics",
                 () => serviceProvider.GetService<IStatisticsService>().UpdateSetStatistics(),
                 "*/5 * * * *"
+            );
+            recurringJobManager.AddOrUpdate(
+                "Recommendations",
+                () => serviceProvider.GetService<IRecommendationService>().Generate(),
+                "0 18 * * *"
             );
         }
         
