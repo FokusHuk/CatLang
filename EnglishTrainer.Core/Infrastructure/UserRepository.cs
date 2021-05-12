@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -13,6 +14,15 @@ namespace EnglishTrainer.Core.Infrastructure
 		public UserRepository(IDbConnection connection)
 		{
 			_connection = connection ?? throw new ArgumentNullException(nameof(connection));
+		}
+
+		public List<User> GetAll()
+		{
+			var result = _connection
+				.Query<User>(@"select * from Users")
+				.ToList();
+
+			return result;
 		}
 
 		public User GetById(Guid userId)
