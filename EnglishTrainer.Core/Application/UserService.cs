@@ -15,6 +15,9 @@ namespace EnglishTrainer.Core.Application
 
 		public Guid CreateUser(string username, string login, string password)
 		{
+			if (_userRepository.GetByLogin(login) != null)
+				throw new AuthenticationException("Login already exists");
+
 			var passwordHash = _hashingPassword.HashPassword(password);
 			var userId = Guid.NewGuid();
 

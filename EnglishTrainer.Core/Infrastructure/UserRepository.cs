@@ -44,7 +44,7 @@ namespace EnglishTrainer.Core.Infrastructure
 					new {Login = login})
 				.ToList();
 
-			return result.Single();
+			return result.SingleOrDefault();
 		}
 
 		public void Create(User user)
