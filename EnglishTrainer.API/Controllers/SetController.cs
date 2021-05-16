@@ -1,4 +1,5 @@
 ﻿using System;
+using EnglishTrainer.API.Extensions;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
 using EnglishTrainer.Core.Domain.Entities;
@@ -44,7 +45,7 @@ namespace EnglishTrainer.API.Controllers
         [HttpPost]
         public IActionResult CreateSet([FromBody] CreateSetRequest request)
         {
-            var setId = _setService.CreateSet(request.UserId, request.StudyTopic, request.SetWordsIds);
+            var setId = _setService.CreateSet(User.GetUserId(), request.StudyTopic, request.SetWordsIds);
 
             var response = new
             {
@@ -69,10 +70,10 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("studied/users/{userId}")]
-        public IActionResult GetStudiedSetsByUserId([FromRoute] Guid userId)
+        [Route("studied/user")]
+        public IActionResult GetStudiedSetsByUserId()
         {
-            var studiedSets = _studiedSetsRepository.GetStudiedSetsByUserId(userId);
+            var studiedSets = _studiedSetsRepository.GetStudiedSetsByUserId(User.GetUserId());
             
             var response = new
             {
@@ -81,26 +82,26 @@ namespace EnglishTrainer.API.Controllers
 
             return Ok(response);
         }
-        
+
         [HttpGet]
-                 [Route("studied")]
-                 public IActionResult GetStudiedSet([FromBody] GetStudiedSetRequest request)
-                 {
-                     var studiedSet = _studiedSetsRepository.GetStudiedSet(request.UserId, request.SetId);
-                     
-                     var response = new
-                     {
-                         StudiedSet = studiedSet
-                     };
-         
-                     return Ok(response);
-                 }
-        
+        [Route("studied/user/{setId}")]
+        public IActionResult GetStudiedSet([FromRoute] Guid setId)
+        {
+            var studiedSet = _studiedSetsRepository.GetStudiedSet(User.GetUserId(), setId);
+
+            var response = new
+            {
+                StudiedSet = studiedSet
+            };
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("studied")]
         public IActionResult AddStudiedSet([FromBody] AddStudiedSetRequest request)
         {
-            _studiedSetsRepository.AddStudiedSet(new StudiedSetDto(request.SetId, request.UserId, request.CorrectAnswers));
+            _studiedSetsRepository.AddStudiedSet(new StudiedSetDto(request.SetId, User.GetUserId(), request.CorrectAnswers));
 
             return Ok();
         }

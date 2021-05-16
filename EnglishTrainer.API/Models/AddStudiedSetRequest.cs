@@ -9,13 +9,11 @@ namespace EnglishTrainer.API.Models
             CorrectAnswers = correctAnswers;
         }
         
-        public AddStudiedSetRequest(Guid userId, Guid setId, int correctAnswers)
+        public AddStudiedSetRequest(Guid setId, int correctAnswers)
         {
-            UserId = userId;
             SetId = setId;
             CorrectAnswers = correctAnswers;
         }
-        public Guid UserId { get; set; }
         public Guid SetId { get; set; }
         public int CorrectAnswers { get; set; }
     }

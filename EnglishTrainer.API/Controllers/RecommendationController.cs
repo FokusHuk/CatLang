@@ -1,4 +1,5 @@
 ﻿using System;
+using EnglishTrainer.API.Extensions;
 using EnglishTrainer.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,9 @@ namespace EnglishTrainer.API.Controllers
         }
 
         [HttpGet]
-        [Route("{userId}")]
-        public IActionResult GetRecommendationsForUser([FromRoute] Guid userId)
+        public IActionResult GetRecommendationsForUser()
         {
-            var recommendedSets = _recommendationService.GetByUserId(userId);
+            var recommendedSets = _recommendationService.GetByUserId(User.GetUserId());
 
             var response = new
             {

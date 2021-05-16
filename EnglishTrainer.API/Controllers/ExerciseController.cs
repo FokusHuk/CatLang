@@ -1,4 +1,5 @@
-﻿using EnglishTrainer.API.Filters;
+﻿using EnglishTrainer.API.Extensions;
+using EnglishTrainer.API.Filters;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,7 @@ namespace EnglishTrainer.API.Controllers
         public IActionResult FinishExercise([FromBody] FinishExerciseRequest request)
         {
             var exerciseResult = _exerciseService.FinishExercise(
-                request.UserId,
+                User.GetUserId(),
                 request.ExerciseId,
                 request.ExerciseFormat);
             

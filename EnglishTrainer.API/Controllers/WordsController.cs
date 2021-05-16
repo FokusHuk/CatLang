@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using EnglishTrainer.API.Extensions;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
@@ -90,10 +91,10 @@ namespace EnglishTrainer.API.Controllers
         }
         
         [HttpGet]
-        [Route("studied/{userId}")] 
-        public IActionResult GetStudiedWords([FromRoute] Guid userId)
+        [Route("studied")] 
+        public IActionResult GetStudiedWords()
         {
-            var studiedWordsDtos = _wordsRepository.GetStudiedWordsByUserId(userId);
+            var studiedWordsDtos = _wordsRepository.GetStudiedWordsByUserId(User.GetUserId());
             var studiedWords = studiedWordsDtos
                 .Select(swd => new StudiedWord(
                     swd.UserId,
@@ -118,7 +119,7 @@ namespace EnglishTrainer.API.Controllers
         public IActionResult AddStudiedWord([FromBody] AddStudiedWordRequest request)
         {
             var studiedWordDto = new StudiedWordDto(
-                request.UserId,
+                User.GetUserId(),
                 request.WordId,
                 request.CorrectAnswers,
                 request.IncorrectAnswers,
