@@ -57,11 +57,10 @@ namespace EnglishTrainer.Core.Infrastructure
         {
             _connection
                 .Query<RecommendedSet>(@"insert into RecommendedSets
-                (Id, SetId, UserId, OffersCount, LastAppearanceDate) 
-                values (@Id, @SetId, @UserId, @OffersCount, @LastAppearanceDate)",
+                (SetId, UserId, OffersCount, LastAppearanceDate) 
+                values (@SetId, @UserId, @OffersCount, @LastAppearanceDate)",
                     new
                     {
-                        Id = recommendedSet.Id,
                         SetId = recommendedSet.SetId,
                         UserId = recommendedSet.UserId,
                         OffersCount = recommendedSet.OffersCount,

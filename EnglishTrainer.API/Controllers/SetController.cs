@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EnglishTrainer.API.Extensions;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
@@ -115,6 +116,31 @@ namespace EnglishTrainer.API.Controllers
             var response = new
             {
                 StudiedSets = studiedSets
+            };
+
+            return Ok(response);
+        }
+        
+        [HttpGet]
+        [Route("user")]
+        public IActionResult GetUserCreatedSets()
+        {
+            var createdSets = _setService.GetUserCreatedSets(User.GetUserId());
+
+            var createSetsForResponse = createdSets
+                .Select(s => new
+                {
+                    StudyTopic = s.StudyTopic,
+                    Complexity = s.Complexity,
+                    Efficiency = s.Efficiency,
+                    Popularity = s.Popularity,
+                    AverageStudyTime = s.AverageStudyTime
+                })
+                .ToList();
+
+            var response = new
+            {
+                CreatedSets = createSetsForResponse
             };
 
             return Ok(response);

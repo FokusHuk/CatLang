@@ -2,11 +2,13 @@
 {
     public class SignInResponse
     {
-        public SignInResponse(string accessToken)
+        public SignInResponse(string username, string accessToken)
         {
+            Username = username;
             AccessToken = accessToken;
         }
 
+        public string Username { get; }
         public string AccessToken { get; }
     }
 }

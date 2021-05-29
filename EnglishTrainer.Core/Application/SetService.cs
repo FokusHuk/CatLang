@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
 
@@ -50,6 +51,14 @@ namespace EnglishTrainer.Core.Application
             }
 
             return setId;
+        }
+
+        public List<WordsSetDto> GetUserCreatedSets(Guid userId)
+        {
+            var sets = _setRepository.GetAll();
+            sets = sets.Where(s => s.UserId == userId).ToList();
+
+            return sets;
         }
 
         private WordsSet GetSetFromDto(WordsSetDto setDto)

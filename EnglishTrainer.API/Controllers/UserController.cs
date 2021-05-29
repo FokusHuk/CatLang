@@ -25,7 +25,7 @@ namespace EnglishTrainer.API.Controllers
             
             var token = _jwtIssuer.GenerateToken(user);
             
-            var response = new SignInResponse(token);
+            var response = new SignInResponse(user.Username, token);
             return Ok(response);
         }
         

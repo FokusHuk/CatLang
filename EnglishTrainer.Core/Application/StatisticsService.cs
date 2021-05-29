@@ -42,11 +42,11 @@ namespace EnglishTrainer.Core.Application
                 {
                     var correctAnswers = (newStudiedWord.IsCorrect ? 1 : 0) + studiedWord.CorrectAnswers;
                     var incorrectAnswers = (newStudiedWord.IsCorrect ? 0 : 1) + studiedWord.IncorrectAnswers;
-                    var riskFactor = studiedWord.RiskFactor + (newStudiedWord.IsCorrect ? -50.0 : +25.0);
+                    var riskFactor = studiedWord.RiskFactor + (newStudiedWord.IsCorrect ? -20.0 : +10.0);
                     if (riskFactor > 100) riskFactor = 100;
                     if (riskFactor < 0) riskFactor = 0;
                     var K = (double) correctAnswers / (correctAnswers + incorrectAnswers);
-                    var status = K > 0.8 ? WordStudyStatus.Complete : WordStudyStatus.NeedPractice;
+                    var status = K > 0.5 ? WordStudyStatus.Complete : WordStudyStatus.NeedPractice;
 
                     studiedWord.CorrectAnswers = correctAnswers;
                     studiedWord.IncorrectAnswers = incorrectAnswers;

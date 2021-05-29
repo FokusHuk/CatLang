@@ -9,5 +9,6 @@ namespace EnglishTrainer.Core.Application
         List<WordsSet> GetAllSets();
         WordsSet GetSetById(Guid setId);
         Guid CreateSet(Guid userId, string studyTopic, List<int> setWordsIds);
+        List<WordsSetDto> GetUserCreatedSets(Guid userId);
     }
 }
