@@ -1,11 +1,12 @@
-﻿using System;
-using EnglishTrainer.API.Extensions;
+﻿using EnglishTrainer.API.Extensions;
 using EnglishTrainer.Core.Application;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
     [Route("recommendations")]
+    [Authorize]
     public class RecommendationController: ControllerBase
     {
         private readonly IRecommendationService _recommendationService;

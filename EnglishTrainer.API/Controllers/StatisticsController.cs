@@ -1,11 +1,13 @@
 ﻿using EnglishTrainer.API.Filters;
 using EnglishTrainer.Core.Application;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
     [GlobalExceptionsFilter]
     [Route("statistics")]
+    [Authorize]
     public class StatisticsController: ControllerBase
     {
         private readonly IStatisticsService _statisticsService;

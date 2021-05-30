@@ -6,11 +6,13 @@ using EnglishTrainer.API.Extensions;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
     [Route("words")]
+    [Authorize]
     public class WordsController: ControllerBase
     {
         private readonly IWordsRepository _wordsRepository;

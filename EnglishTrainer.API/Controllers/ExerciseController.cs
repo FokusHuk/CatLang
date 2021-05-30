@@ -2,12 +2,14 @@
 using EnglishTrainer.API.Filters;
 using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
     [GlobalExceptionsFilter]
     [Route("exercises")]
+    [Authorize]
     public class ExerciseController : ControllerBase
     {
         private readonly IExerciseService _exerciseService;

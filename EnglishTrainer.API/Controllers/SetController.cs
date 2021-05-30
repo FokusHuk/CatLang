@@ -5,11 +5,13 @@ using EnglishTrainer.API.Models;
 using EnglishTrainer.Core.Application;
 using EnglishTrainer.Core.Domain.Entities;
 using EnglishTrainer.Core.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishTrainer.API.Controllers
 {
     [Route("sets")]
+    [Authorize]
     public class SetController: ControllerBase
     {
         private readonly ISetService _setService;
