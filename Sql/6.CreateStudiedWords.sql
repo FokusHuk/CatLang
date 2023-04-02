@@ -1,6 +1,6 @@
 USE [CatLang]
-GO
 
+if not exists (select * from sys.tables where name='StudiedWords')
 CREATE TABLE [dbo].[StudiedWords](
     [Id] [int] IDENTITY(1,1) NOT NULL,
     [UserId] [uniqueidentifier] NOT NULL,
@@ -12,18 +12,13 @@ CREATE TABLE [dbo].[StudiedWords](
     [RiskFactor] [real] NOT NULL,
     CONSTRAINT [PK_StudiedWords] PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
-GO
 
 ALTER TABLE [dbo].[StudiedWords]  WITH CHECK ADD  CONSTRAINT [FK_StudiedWords_Users] FOREIGN KEY([UserId])
     REFERENCES [dbo].[Users] ([Id])
-GO
 
 ALTER TABLE [dbo].[StudiedWords] CHECK CONSTRAINT [FK_StudiedWords_Users]
-GO
 
 ALTER TABLE [dbo].[StudiedWords]  WITH CHECK ADD  CONSTRAINT [FK_StudiedWords_Words] FOREIGN KEY([WordId])
     REFERENCES [dbo].[Words] ([Id])
-GO
 
 ALTER TABLE [dbo].[StudiedWords] CHECK CONSTRAINT [FK_StudiedWords_Words]
-GO

@@ -1,6 +1,6 @@
 USE [CatLang]
-GO
 
+if not exists (select * from sys.tables where name='RecommendedSets')
 CREATE TABLE [dbo].[RecommendedSets](
     [Id] [int] IDENTITY(1,1) NOT NULL,
     [SetId] [uniqueidentifier] NOT NULL,
@@ -9,18 +9,13 @@ CREATE TABLE [dbo].[RecommendedSets](
     [LastAppearanceDate] [date] NOT NULL,
     CONSTRAINT [PK_RecommendedSets] PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
-GO
 
 ALTER TABLE [dbo].[RecommendedSets]  WITH CHECK ADD  CONSTRAINT [FK_RecommendedSets_Sets] FOREIGN KEY([SetId])
     REFERENCES [dbo].[Sets] ([Id])
-GO
 
 ALTER TABLE [dbo].[RecommendedSets] CHECK CONSTRAINT [FK_RecommendedSets_Sets]
-GO
 
 ALTER TABLE [dbo].[RecommendedSets]  WITH CHECK ADD  CONSTRAINT [FK_RecommendedSets_Users] FOREIGN KEY([UserId])
     REFERENCES [dbo].[Users] ([Id])
-GO
 
 ALTER TABLE [dbo].[RecommendedSets] CHECK CONSTRAINT [FK_RecommendedSets_Users]
-GO
