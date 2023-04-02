@@ -24,6 +24,11 @@ namespace EnglishTrainer.Core.Domain.Entities
             RiskFactor = riskFactor;
         }
 
+        public StudiedWordDto()
+        {
+            
+        }
+
         public StudiedWordDto(
             Guid userId, 
             int wordId, 

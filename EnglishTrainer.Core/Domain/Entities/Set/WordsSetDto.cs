@@ -35,6 +35,11 @@ namespace EnglishTrainer.Core.Domain.Entities
             AverageStudyTime = 0.0;
             Complexity = 0.0;
         }
+
+        public WordsSetDto()
+        {
+            
+        }
         
         public Guid Id { get; }
         public Guid UserId { get; }

@@ -18,6 +18,11 @@ namespace EnglishTrainer.Core.Domain.Entities
 			Status = status;
 		}
 
+		public StudiedWord()
+		{
+			
+		}
+
 		public Guid UserId { get; }
 		public Word Word { get; }
 		public double RiskFactor { get; set; }

@@ -21,6 +21,11 @@ namespace EnglishTrainer.Core.Domain.Entities
             OffersCount = offersCount;
             LastAppearanceDate = lastAppearanceDate;
         }
+
+        public RecommendedSet()
+        {
+            
+        }
         
         public int Id { get; }
         public Guid SetId { get; }
