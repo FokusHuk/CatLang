@@ -25,6 +25,11 @@ namespace EnglishTrainer.Core.Domain.Entities
             AttemptsCount = 1;
             IsStudied = isStudied;
         }
+
+        public StudiedSetDto()
+        {
+            
+        }
         
         public int Id { get; }
         public Guid SetId { get; }

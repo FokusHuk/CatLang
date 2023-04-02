@@ -16,6 +16,11 @@ namespace EnglishTrainer.Core.Domain.Entities
 			Original = original ?? throw new ArgumentNullException(nameof(original));
 			Translation = translation ?? throw new ArgumentNullException(nameof(translation));
 		}
+
+		public Word()
+		{
+			
+		}
 		
 		public int Id { get; }
 

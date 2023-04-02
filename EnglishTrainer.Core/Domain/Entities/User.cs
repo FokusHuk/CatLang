@@ -12,6 +12,11 @@ namespace EnglishTrainer.Core.Domain.Entities
 			PasswordHash = passwordHash;
 		}
 
+		public User()
+		{
+			
+		}
+
 		public Guid Id { get; }
 		public string Username { get; set; }
 		public string Login { get; }

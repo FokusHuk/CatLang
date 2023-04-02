@@ -133,7 +133,7 @@ namespace EnglishTrainer.Core.Application
 
             var wordsCount = setWordsIds.Intersect(wordsIds).Count();
 
-            return wordsCount > 1;
+            return wordsCount > 2;
         }
     }
 }
