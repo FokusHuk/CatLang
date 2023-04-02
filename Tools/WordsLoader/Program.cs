@@ -36,6 +36,6 @@ public class Program
 
     private static string GetCommandSqlCommandText(string original, string translation)
     {
-        return $"insert into Words (Original, Translation) VALUES ('{original}', '{translation}')";
+        return $"insert into [CatLang].[dbo].[Words] (Original, Translation) VALUES ('{original}', '{translation}')";
     }
 }
