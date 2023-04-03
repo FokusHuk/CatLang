@@ -1,0 +1,31 @@
+name: release
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: Build solution    
+    env:
+      DOCKER_BUILDKIT: 1
+
+      image_api: catlang_api
+      image_migrator: catlang_migrator
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1   
+          
+      - name: build & tests
+        run: |
+          docker build . --rm --target tests --tag local/tests:latest
+          docker run local/tests:latest
+
+      - name: build docker images
+        run: |
+          docker build . --rm  --tag local/${{ env.image_api }}:latest --target api
+          docker build . --rm  --tag local/${{ env.image_migrator }}:latest --target migrator
