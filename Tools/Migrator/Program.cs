@@ -54,7 +54,7 @@ public class Program
             var version = (int) sqlCommand.ExecuteScalar();
             return version;
         }
-        catch (Exception e)
+        catch
         {
             return null;
         }

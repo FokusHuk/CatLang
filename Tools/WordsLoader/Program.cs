@@ -28,6 +28,11 @@ public class Program
         {
             var original = reader.ReadLine();
             var translation = reader.ReadLine();
+
+            if (original is null || translation is null)
+            {
+                throw new InvalidOperationException("Null arguments for the new words were provided.");
+            }
             
             sqlCommand.CommandText = GetCommandSqlCommandText(original, translation);
             sqlCommand.ExecuteNonQuery();

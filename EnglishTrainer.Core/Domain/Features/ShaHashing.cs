@@ -18,7 +18,9 @@ namespace EnglishTrainer.Core.Domain.Features
 
         private static string GenerateSha512String(string inputString)
         {
+#pragma warning disable SYSLIB0021
             SHA512 sha512 = SHA512Managed.Create();
+#pragma warning restore SYSLIB0021
             byte[] bytes = Encoding.UTF8.GetBytes(inputString);
             byte[] hash = sha512.ComputeHash(bytes);
             return GetStringFromHash(hash);
