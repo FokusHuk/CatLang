@@ -14,7 +14,7 @@ public class Program
     }
 
     private static DatabaseType databaseType = DatabaseType.PostgreSql;
-    
+
     private static void Main(string[] args)
     {
         if (args.Length == 0)
