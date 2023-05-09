@@ -43,6 +43,8 @@ namespace EnglishTrainer.Core.Application
         
         public void Generate()
         {
+            Console.WriteLine("RecommendationService: start generation.");
+            
             var complexityLimit = 20.0;
 
             var sets = _setRepository.GetAll();
@@ -110,19 +112,21 @@ namespace EnglishTrainer.Core.Application
                 {
                     if (!userPreviousRecommendationsIds.Contains(set.Id))
                         _recommendedSetsRepository.Create(new RecommendedSet(
-                            set.Id, userId, 1, DateTime.Now));
+                            set.Id, userId, 1, DateTime.Now.ToUniversalTime()));
                     else
                     {
                         var recommendedSetToUpdate = userPreviousRecommendations
                             .Single(upr => upr.SetId == set.Id);
 
                         recommendedSetToUpdate.OffersCount += 1;
-                        recommendedSetToUpdate.LastAppearanceDate = DateTime.Now;
+                        recommendedSetToUpdate.LastAppearanceDate = DateTime.Now.ToUniversalTime();
 
                         _recommendedSetsRepository.UpdateSet(recommendedSetToUpdate);
                     }
                 }
             }
+            
+            Console.WriteLine("RecommendationService: generation finished.");
         }
 
         private bool CheckForWordsWithHighRiskFactor(Guid verifiableSetId, List<int> wordsIds)

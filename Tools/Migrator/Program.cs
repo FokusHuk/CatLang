@@ -107,7 +107,7 @@ public class Program
 
     private static void UpdateDatabaseVersion(DbConnection connection, int version)
     {
-        var currentDate = DateTime.Now;
+        var currentDate = DateTime.Now.ToUniversalTime();
         var sqlCommand = connection.CreateCommand();
         sqlCommand.CommandText = databaseType == DatabaseType.SqlServer
             ? GetSqlServerUpdateDatabaseVersionCommand(version, currentDate)
