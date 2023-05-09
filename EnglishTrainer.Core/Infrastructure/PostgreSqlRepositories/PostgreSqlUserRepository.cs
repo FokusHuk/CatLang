@@ -8,10 +8,10 @@ using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-	public class UserRepository : IUserRepository
+	public class PostgreSqlUserRepository : IUserRepository
 	{
 		private readonly IDbConnection _connection;
-		public UserRepository(IDbConnection connection)
+		public PostgreSqlUserRepository(IDbConnection connection)
 		{
 			_connection = connection ?? throw new ArgumentNullException(nameof(connection));
 		}
@@ -19,7 +19,7 @@ namespace EnglishTrainer.Core.Infrastructure
 		public List<User> GetAll()
 		{
 			var result = _connection
-				.Query<User>(@"select * from Users")
+				.Query<User>("select * from public.\"Users\"")
 				.ToList();
 
 			return result;
@@ -28,8 +28,8 @@ namespace EnglishTrainer.Core.Infrastructure
 		public User GetById(Guid userId)
 		{
 			var result = _connection
-				.Query<User>(@"select * from Users
-                                    where Id = @Id",
+				.Query<User>(@"select * from public.""Users""
+				where ""Id"" = @Id",
 					new {Id = userId})
 				.ToList();
 
@@ -39,8 +39,8 @@ namespace EnglishTrainer.Core.Infrastructure
 		public User GetByLogin(string login)
 		{
 			var result = _connection
-				.Query<User>(@"select * from Users
-                                    where Login = @Login",
+				.Query<User>(@"select * from public.""Users""
+				where ""Login"" = @Login",
 					new {Login = login})
 				.ToList();
 
@@ -50,9 +50,9 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void Create(User user)
 		{
 			var a = _connection
-				.Query<User>(@"insert into Users
-                (Id, Username, Login, PasswordHash) 
-                VALUES (@Id, @Username, @Login, @PasswordHash)",
+				.Query<User>(@"insert into public.""Users""
+				(""Id"", ""Username"", ""Login"", ""PasswordHash"") 
+				VALUES (@Id, @Username, @Login, @PasswordHash)",
 					new
 					{
 						Id = user.Id,

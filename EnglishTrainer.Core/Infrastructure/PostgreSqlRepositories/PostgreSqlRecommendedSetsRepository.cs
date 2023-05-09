@@ -8,11 +8,11 @@ using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-    public class RecommendedSetsRepository: IRecommendedSetsRepository
+    public class PostgreSqlRecommendedSetsRepository: IRecommendedSetsRepository
     {
         private readonly IDbConnection _connection;
         
-        public RecommendedSetsRepository(IDbConnection connection)
+        public PostgreSqlRecommendedSetsRepository(IDbConnection connection)
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
@@ -20,7 +20,7 @@ namespace EnglishTrainer.Core.Infrastructure
         public List<RecommendedSet> GetAll()
         {
             var result = _connection
-                .Query<RecommendedSet>(@"select * from RecommendedSets")
+                .Query<RecommendedSet>("select * from public.\"RecommendedSets\"")
                 .ToList();
 
             return result;
@@ -29,8 +29,8 @@ namespace EnglishTrainer.Core.Infrastructure
         public List<RecommendedSet> GetByUserId(Guid userId)
         {
             var result = _connection
-                .Query<RecommendedSet>(@"select * from RecommendedSets
-                                    where UserId = @UserId",
+                .Query<RecommendedSet>(@"select * from public.""RecommendedSets""
+                where ""UserId"" = @UserId",
                     new {UserId = userId})
                 .ToList();
 
@@ -40,11 +40,11 @@ namespace EnglishTrainer.Core.Infrastructure
         public void UpdateSet(RecommendedSet recommendedSet)
         {
             _connection
-                .Query<RecommendedSet>(@"update RecommendedSets
-                            set 
-                                OffersCount = @OffersCount,
-                                LastAppearanceDate = @LastAppearanceDate
-                            where Id = @Id",
+                .Query<RecommendedSet>(@"update public.""RecommendedSets""
+                set 
+                    ""OffersCount"" = @OffersCount,
+                    ""LastAppearanceDate"" = @LastAppearanceDate
+                where ""Id"" = @Id",
                     new
                     {
                         Id = recommendedSet.Id,
@@ -56,8 +56,8 @@ namespace EnglishTrainer.Core.Infrastructure
         public void Create(RecommendedSet recommendedSet)
         {
             _connection
-                .Query<RecommendedSet>(@"insert into RecommendedSets
-                (SetId, UserId, OffersCount, LastAppearanceDate) 
+                .Query<RecommendedSet>(@"insert into public.""RecommendedSets""
+                (""SetId"", ""UserId"", ""OffersCount"", ""LastAppearanceDate"") 
                 values (@SetId, @UserId, @OffersCount, @LastAppearanceDate)",
                     new
                     {
