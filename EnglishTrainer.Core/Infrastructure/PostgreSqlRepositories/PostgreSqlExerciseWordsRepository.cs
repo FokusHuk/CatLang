@@ -9,11 +9,11 @@ using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-    public class ExerciseWordsRepository : IExerciseWordsRepository
+    public class PostgreSqlExerciseWordsRepository : IExerciseWordsRepository
     {
         private readonly IDbConnection _connection;
         
-        public ExerciseWordsRepository(IDbConnection connection)
+        public PostgreSqlExerciseWordsRepository(IDbConnection connection)
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
@@ -21,8 +21,8 @@ namespace EnglishTrainer.Core.Infrastructure
         public List<ExerciseWordDto> GetExerciseWordsByExerciseId(Guid exerciseId)
         {
             var result = _connection
-                .Query<ExerciseWordDto>(@"select * from ExerciseWords
-								Where ExerciseId = @ExerciseId",
+                .Query<ExerciseWordDto>("select * from public.\"ExerciseWords\"" +
+                                        "Where \"ExerciseId\" = @ExerciseId",
                     new {ExerciseId = exerciseId})
                 .ToList();
 
@@ -32,9 +32,9 @@ namespace EnglishTrainer.Core.Infrastructure
         public void AddExerciseWord(ExerciseWordDto exerciseWordDto)
         {
             var a = _connection
-                .Query<Word>(@"insert into ExerciseWords
-                (ExerciseId, SetId, WordId, Answer, Date, IsCorrect) 
-                VALUES (@ExerciseId, @SetId, @WordId, @Answer, @Date, @IsCorrect)",
+                .Query<Word>("insert into public.\"ExerciseWords\"" +
+                             "(\"ExerciseId\", \"SetId\", \"WordId\", \"Answer\", \"Date\", \"IsCorrect\")" +
+                             "VALUES (@ExerciseId, @SetId, @WordId, @Answer, @Date, @IsCorrect)",
                     new
                     {
                         ExerciseId = exerciseWordDto.ExerciseId,
@@ -48,8 +48,8 @@ namespace EnglishTrainer.Core.Infrastructure
 
         public void DeleteExerciseWordsByExerciseId(Guid exerciseId)
         {
-            _connection.Query<ExerciseWordDto>(@"delete from ExerciseWords
-								Where ExerciseId = @ExerciseId",
+            _connection.Query<ExerciseWordDto>(@"delete from public.""ExerciseWords""
+                                                Where ""ExerciseId"" = @ExerciseId",
                 new {ExerciseId = exerciseId});
         }
     }

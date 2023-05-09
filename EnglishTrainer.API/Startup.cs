@@ -1,6 +1,5 @@
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Text;
 using EnglishTrainer.API.Authentication;
 using EnglishTrainer.Core.Application;
@@ -18,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 
 namespace EnglishTrainer.API
 {
@@ -80,13 +80,13 @@ namespace EnglishTrainer.API
         private void RegisterDapperRepository(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IDbConnection>(
-                serviceProvider => new SqlConnection(GetConnectionString()));
-            serviceCollection.AddScoped<IUserRepository, UserRepository>();
-            serviceCollection.AddScoped<IWordsRepository, WordsRepository>();
-            serviceCollection.AddScoped<ISetRepository, SetRepository>();
-            serviceCollection.AddScoped<IRecommendedSetsRepository, RecommendedSetsRepository>();
-            serviceCollection.AddScoped<IStudiedSetsRepository, StudiedSetsRepository>();
-            serviceCollection.AddScoped<IExerciseWordsRepository, ExerciseWordsRepository>();
+                serviceProvider => new NpgsqlConnection(GetPostgreSqlConnectionString()));
+            serviceCollection.AddScoped<IUserRepository, PostgreSqlUserRepository>();
+            serviceCollection.AddScoped<IWordsRepository, PostgreSqlWordsRepository>();
+            serviceCollection.AddScoped<ISetRepository, PostgreSqlSetRepository>();
+            serviceCollection.AddScoped<IRecommendedSetsRepository, PostgreSqlRecommendedSetsRepository>();
+            serviceCollection.AddScoped<IStudiedSetsRepository, PostgreSqlStudiedSetsRepository>();
+            serviceCollection.AddScoped<IExerciseWordsRepository, PostgreSqlExerciseWordsRepository>();
         }
         
         public void Configure(
@@ -122,13 +122,18 @@ namespace EnglishTrainer.API
             recurringJobManager.AddOrUpdate(
                 "Recommendations",
                 () => serviceProvider.GetService<IRecommendationService>().Generate(),
-                "0 18 * * *"
+                "*/5 * * * *"
             );
         }
         
-        private string GetConnectionString()
+        private string GetSqlServerConnectionString()
         {
-            return Configuration.GetValue<string>("ConnectionString");
+            return Configuration.GetValue<string>("SqlServerConnectionString");
+        }
+
+        private string GetPostgreSqlConnectionString()
+        {
+            return Configuration.GetValue<string>("PostgreSqlConnectionString");
         }
     }
 }

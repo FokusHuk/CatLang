@@ -8,10 +8,10 @@ using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-	public class WordsRepository : IWordsRepository
+	public class PostgreSqlWordsRepository : IWordsRepository
 	{
 		private readonly IDbConnection _connection;
-		public WordsRepository(IDbConnection connection)
+		public PostgreSqlWordsRepository(IDbConnection connection)
 		{
 			_connection = connection ?? throw new ArgumentNullException(nameof(connection));
 		}
@@ -19,7 +19,7 @@ namespace EnglishTrainer.Core.Infrastructure
 		public List<Word> GetAll()
 		{
 			var result = _connection
-				.Query<Word>(@"select * from Words")
+				.Query<Word>("select * from public.\"Words\"")
 				.ToList();
 
 			return result;
@@ -28,8 +28,8 @@ namespace EnglishTrainer.Core.Infrastructure
 		public Word GetById(int wordId)
 		{
 			var result = _connection
-				.Query<Word>(@"select * from Words
-                                    where Id = @Id",
+				.Query<Word>(@"select * from public.""Words""
+				where ""Id"" = @Id",
 					new {Id = wordId})
 				.ToList();
 
@@ -39,9 +39,9 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void Create(Word word)
 		{
 			var a = _connection
-				.Query<Word>(@"insert into Words
-                (Original, Translation) 
-                VALUES (@Original, @Translation)",
+				.Query<Word>(@"insert into public.""Words""
+				(""Original"", ""Translation"") 
+				VALUES (@Original, @Translation)",
 					new
 					{
 						Original = word.Original,
@@ -52,10 +52,10 @@ namespace EnglishTrainer.Core.Infrastructure
 		public List<Word> GetSetWords(Guid setId)
 		{
 			var result = _connection
-				.Query<Word>(@"select * from Words
-								Where Id in 
-								(select (WordId) from SetWords
-                                    where SetId = @SetId)",
+				.Query<Word>(@"select * from public.""Words""
+				Where ""Id"" in 
+				(select (""WordId"") from public.""SetWords""
+				where ""SetId"" = @SetId)",
 					new {SetId = setId})
 				.ToList();
 
@@ -65,9 +65,9 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void AddSetWord(Guid setId, int wordId)
 		{
 			var a = _connection
-				.Query<Word>(@"insert into SetWords
-                (WordId, SetId) 
-                VALUES (@WordId, @SetId)",
+				.Query<Word>(@"insert into public.""SetWords""
+				(""WordId"", ""SetId"") 
+				VALUES (@WordId, @SetId)",
 					new
 					{
 						WordId = wordId,
@@ -78,8 +78,8 @@ namespace EnglishTrainer.Core.Infrastructure
 		public StudiedWordDto GetStudiedWord(Guid userId, int wordId)
 		{
 			var result = _connection
-				.Query<StudiedWordDto>(@"select * from StudiedWords
-								Where UserId = @UserId and WordId = @WordId",
+				.Query<StudiedWordDto>(@"select * from public.""StudiedWords""
+				Where ""UserId"" = @UserId and ""WordId"" = @WordId",
 					new
 					{
 						UserId = userId,
@@ -93,8 +93,8 @@ namespace EnglishTrainer.Core.Infrastructure
 		public List<StudiedWordDto> GetStudiedWordsByUserId(Guid userId)
 		{
 			var result = _connection
-				.Query<StudiedWordDto>(@"select * from StudiedWords
-								Where UserId = @UserId",
+				.Query<StudiedWordDto>(@"select * from public.""StudiedWords""
+				Where ""UserId"" = @UserId",
 					new {UserId = userId})
 				.ToList();
 
@@ -104,13 +104,14 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void UpdateStudiedWord(StudiedWordDto studiedWordDto)
 		{
 			var result = _connection
-				.Query<StudiedWordDto>(@"update StudiedWords
-   								set CorrectAnswers = @CorrectAnswers,
-   								   	IncorrectAnswers = @IncorrectAnswers,
-   								   	LastAppearanceDate = @LastAppearanceDate,
-   								   	Status = @Status,
-   								   	RiskFactor = @RiskFactor
- 								where Id = @Id",
+				.Query<StudiedWordDto>(@"update public.""StudiedWords""
+				set 
+					""CorrectAnswers"" = @CorrectAnswers,
+					""IncorrectAnswers"" = @IncorrectAnswers,
+					""LastAppearanceDate"" = @LastAppearanceDate,
+					""Status"" = @Status,
+					""RiskFactor"" = @RiskFactor
+				where ""Id"" = @Id",
 					new
 					{
 						Id = studiedWordDto.Id,
@@ -125,9 +126,9 @@ namespace EnglishTrainer.Core.Infrastructure
 		public void AddStudiedWord(StudiedWordDto studiedWordDto)
 		{
 			var a = _connection
-				.Query<Word>(@"insert into StudiedWords
-                (UserId, WordId, CorrectAnswers, IncorrectAnswers, LastAppearanceDate, Status, RiskFactor) 
-                VALUES (@UserId, @WordId, @CorrectAnswers, @IncorrectAnswers, @LastAppearanceDate, @Status, @RiskFactor)",
+				.Query<Word>(@"insert into public.""StudiedWords""
+				(""UserId"", ""WordId"", ""CorrectAnswers"", ""IncorrectAnswers"", ""LastAppearanceDate"", ""Status"", ""RiskFactor"") 
+				VALUES (@UserId, @WordId, @CorrectAnswers, @IncorrectAnswers, @LastAppearanceDate, @Status, @RiskFactor)",
 					new
 					{
 						UserId = studiedWordDto.UserId,

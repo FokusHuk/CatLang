@@ -41,7 +41,7 @@ namespace EnglishTrainer.Core.Application
 			string taskAnswer, 
 			bool userChoice)
 		{
-			var date = DateTime.Now;
+			var date = DateTime.Now.ToUniversalTime();
 			var word = _wordsRepository.GetById(wordId);
 			var isCorrect = format == ExerciseFormat.EnRu
 				? word.Translation == taskAnswer
@@ -60,7 +60,7 @@ namespace EnglishTrainer.Core.Application
 			int wordId, 
 			string chosenAnswer)
 		{
-			var date = DateTime.Now;
+			var date = DateTime.Now.ToUniversalTime();
 			var word = _wordsRepository.GetById(wordId);
 			var isCorrect = format == ExerciseFormat.EnRu
 				? word.Translation == chosenAnswer

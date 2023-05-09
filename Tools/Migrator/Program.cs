@@ -1,10 +1,20 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data.Common;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace Migrator;
 
 public class Program
 {
+    private enum DatabaseType
+    {
+        SqlServer,
+        PostgreSql
+    }
+
+    private static DatabaseType databaseType = DatabaseType.PostgreSql;
+
     private static void Main(string[] args)
     {
         if (args.Length == 0)
@@ -17,9 +27,14 @@ public class Program
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false)
             .Build();
-        
-        var connectionString = configuration.GetRequiredSection("ConnectionString").Value;
-        using var sqlConnection = new SqlConnection(connectionString);
+
+        var connectionStringConfigurationSection = databaseType == DatabaseType.SqlServer
+            ? "SqlServerConnectionString"
+            : "PostgreSqlConnectionString";
+        var connectionString = configuration.GetRequiredSection(connectionStringConfigurationSection).Value;
+        using var sqlConnection = databaseType == DatabaseType.SqlServer
+            ? GetSqlServerConnection(connectionString)
+            : GetPostgreSqlServerConnection(connectionString);
         sqlConnection.Open();
 
         var currentVersion = GetCurrentDatabaseVersion(sqlConnection);
@@ -43,14 +58,30 @@ public class Program
         }
     }
 
-    private static int? GetCurrentDatabaseVersion(SqlConnection connection)
+    private static DbConnection GetSqlServerConnection(string connectionString)
+    {
+        return new SqlConnection(connectionString);
+    }
+    
+    private static DbConnection GetPostgreSqlServerConnection(string connectionString)
+    {
+        return new NpgsqlConnection(connectionString);
+    }
+
+    private static string GetCurrentDatabaseVersionPostgreSqlScript =
+        "SELECT \"Version\" FROM public.\"DatabaseMigrations\" ORDER BY \"Version\" DESC LIMIT 1";
+
+    private static string GetCurrentDatabaseVersionSqlServerScript = 
+        @" select top (1) [Version] from [CatLang].[dbo].[DatabaseMigrations] order by [Id] desc";
+    
+    private static int? GetCurrentDatabaseVersion(DbConnection connection)
     {
         try
         {
             var sqlCommand = connection.CreateCommand();
-            sqlCommand.CommandText = @"select top (1) [Version]
-            from [CatLang].[dbo].[DatabaseMigrations]
-            order by [Id] desc";
+            sqlCommand.CommandText = databaseType == DatabaseType.SqlServer
+                ? GetCurrentDatabaseVersionSqlServerScript
+                : GetCurrentDatabaseVersionPostgreSqlScript;
             var version = (int) sqlCommand.ExecuteScalar();
             return version;
         }
@@ -67,18 +98,30 @@ public class Program
         return script;
     }
 
-    private static void ExecuteScript(SqlConnection connection, string script)
+    private static void ExecuteScript(DbConnection connection, string script)
     {
         var sqlCommand = connection.CreateCommand();
         sqlCommand.CommandText = script;
         sqlCommand.ExecuteNonQuery();
     }
 
-    private static void UpdateDatabaseVersion(SqlConnection connection, int version)
+    private static void UpdateDatabaseVersion(DbConnection connection, int version)
     {
-        var currentDate = DateTime.Now;
+        var currentDate = DateTime.Now.ToUniversalTime();
         var sqlCommand = connection.CreateCommand();
-        sqlCommand.CommandText = $"insert into [CatLang].[dbo].[DatabaseMigrations] (Date, Version) values ('{currentDate}', '{version}')";
+        sqlCommand.CommandText = databaseType == DatabaseType.SqlServer
+            ? GetSqlServerUpdateDatabaseVersionCommand(version, currentDate)
+            : GetPostgreSqlUpdateDatabaseVersionCommand(version, currentDate);
         sqlCommand.ExecuteNonQuery();
+    }
+
+    private static string GetSqlServerUpdateDatabaseVersionCommand(int version, DateTime currentDate)
+    {
+        return $"insert into [CatLang].[dbo].[DatabaseMigrations] (Date, Version) values ('{currentDate}', '{version}')";
+    }
+
+    private static string GetPostgreSqlUpdateDatabaseVersionCommand(int version, DateTime currentDate)
+    {
+        return $"INSERT INTO public.\"DatabaseMigrations\"(\"Version\", \"Date\") VALUES ({version}, '{currentDate}')";
     }
 }

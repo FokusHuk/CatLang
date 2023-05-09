@@ -36,7 +36,7 @@ namespace EnglishTrainer.Core.Application
                         newStudiedWord.WordId,
                         newStudiedWord.IsCorrect ? 1 : 0,
                         newStudiedWord.IsCorrect ? 0 : 1,
-                        newStudiedWord.Date));
+                        newStudiedWord.Date.ToUniversalTime()));
                 }
                 else
                 {
@@ -52,7 +52,7 @@ namespace EnglishTrainer.Core.Application
                     studiedWord.IncorrectAnswers = incorrectAnswers;
                     studiedWord.RiskFactor = riskFactor;
                     studiedWord.Status = status;
-                    studiedWord.LastAppearanceDate = newStudiedWord.Date;
+                    studiedWord.LastAppearanceDate = newStudiedWord.Date.ToUniversalTime();
 
                     _wordsRepository.UpdateStudiedWord(studiedWord);
                 }
@@ -95,6 +95,8 @@ namespace EnglishTrainer.Core.Application
 
         public void UpdateSetStatistics()
         {
+            Console.WriteLine("StatisticsService: start updating statistics.");
+            
             var studiedSets = _studiedSetsRepository.GetStudiedSets();
 
             var studiedSetsIds = studiedSets.Select(s => s.SetId).ToList();
@@ -132,6 +134,8 @@ namespace EnglishTrainer.Core.Application
 
                 _setRepository.UpdateSet(set);
             }
+            
+            Console.WriteLine("StatisticsService: statistics updated.");
         }
     }
 }

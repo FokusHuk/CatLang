@@ -8,11 +8,11 @@ using EnglishTrainer.Core.Domain.Repositories;
 
 namespace EnglishTrainer.Core.Infrastructure
 {
-    public class StudiedSetsRepository : IStudiedSetsRepository
+    public class SqlServerStudiedSetsRepository : IStudiedSetsRepository
     {
         private readonly IDbConnection _connection;
         
-        public StudiedSetsRepository(IDbConnection connection)
+        public SqlServerStudiedSetsRepository(IDbConnection connection)
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
