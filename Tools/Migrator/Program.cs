@@ -33,8 +33,8 @@ public class Program
             : "PostgreSqlConnectionString";
         var connectionString = configuration.GetRequiredSection(connectionStringConfigurationSection).Value;
         using var sqlConnection = databaseType == DatabaseType.SqlServer
-            ? GetSqlServerConnection(connectionString)
-            : GetPostgreSqlServerConnection(connectionString);
+            ? GetSqlServerConnection(connectionString!)
+            : GetPostgreSqlServerConnection(connectionString!);
         sqlConnection.Open();
 
         var currentVersion = GetCurrentDatabaseVersion(sqlConnection);
@@ -82,7 +82,7 @@ public class Program
             sqlCommand.CommandText = databaseType == DatabaseType.SqlServer
                 ? GetCurrentDatabaseVersionSqlServerScript
                 : GetCurrentDatabaseVersionPostgreSqlScript;
-            var version = (int) sqlCommand.ExecuteScalar();
+            var version = (int) sqlCommand.ExecuteScalar()!;
             return version;
         }
         catch
