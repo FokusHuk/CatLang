@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public."UserStudiedSets"
     "SetId" uuid NOT NULL,
     "UserId" uuid NOT NULL,
     "AttemptsCount" integer NOT NULL,
-    "IsStudied" bit(1) NOT NULL,
+    "IsStudied" boolean NOT NULL,
     "CorrectAnswers" integer NOT NULL,
     "AnswersCount" integer NOT NULL,
     CONSTRAINT "UserStudiedSets_pkey" PRIMARY KEY ("Id"),

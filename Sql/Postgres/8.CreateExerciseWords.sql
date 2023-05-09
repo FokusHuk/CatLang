@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public."ExerciseWords"
     "WordId" integer NOT NULL,
     "Answer" text COLLATE pg_catalog."default" NOT NULL,
     "Date" date NOT NULL,
-    "IsCorrect" bit(1) NOT NULL,
+    "IsCorrect" boolean NOT NULL,
     CONSTRAINT "ExerciseWords_pkey" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_ExerciseWords_Sets" FOREIGN KEY ("SetId")
         REFERENCES public."Sets" ("Id") MATCH SIMPLE
