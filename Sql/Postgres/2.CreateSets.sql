@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS public."Sets"
     "Id" uuid NOT NULL,
     "UserId" uuid NOT NULL,
     "AverageStudyTime" real NOT NULL,
-    "StudyTopic" character(100) COLLATE pg_catalog."default" NOT NULL,
+    "StudyTopic" text COLLATE pg_catalog."default" NOT NULL,
     "Popularity" integer NOT NULL,
     "Efficiency" real NOT NULL,
     "Complexity" real NOT NULL,

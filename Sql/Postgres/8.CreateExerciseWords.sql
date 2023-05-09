@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public."ExerciseWords"
     "ExerciseId" uuid NOT NULL,
     "SetId" uuid NOT NULL,
     "WordId" integer NOT NULL,
-    "Answer" character(100)[] COLLATE pg_catalog."default" NOT NULL,
+    "Answer" text COLLATE pg_catalog."default" NOT NULL,
     "Date" date NOT NULL,
     "IsCorrect" bit(1) NOT NULL,
     CONSTRAINT "ExerciseWords_pkey" PRIMARY KEY ("Id"),

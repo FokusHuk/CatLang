@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS public."Users"
 (
     "Id" uuid NOT NULL,
-    "Username" character(50) COLLATE pg_catalog."default" NOT NULL,
-    "Login" character(50) COLLATE pg_catalog."default" NOT NULL,
-    "PasswordHash" character(100) COLLATE pg_catalog."default" NOT NULL,
+    "Username" text COLLATE pg_catalog."default" NOT NULL,
+    "Login" text COLLATE pg_catalog."default" NOT NULL,
+    "PasswordHash" text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "Users_pkey" PRIMARY KEY ("Id")
 )
 
