@@ -31,8 +31,8 @@ public class Program
             : "PostgreSqlConnectionString";
         var connectionString = configuration.GetRequiredSection(connectionStringConfigurationSection).Value;
         using var sqlConnection = databaseType == DatabaseType.SqlServer
-            ? GetSqlServerConnection(connectionString)
-            : GetPostgreSqlServerConnection(connectionString);
+            ? GetSqlServerConnection(connectionString!)
+            : GetPostgreSqlServerConnection(connectionString!);
         sqlConnection.Open();
 
         var sqlCommand = sqlConnection.CreateCommand();
